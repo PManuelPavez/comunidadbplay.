@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sorteos | Bplay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-frame" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="nav container">
+      <a href="/" class="brand brand--left"><img src="assets/brand/bplay-logo.png" class="brand-logo" alt="BPLAY"></a>
+      <nav class="nav-left nav-tabs">
+        <a class="nav-link" href="/">Inicio</a>
+        <a class="nav-link is-active" href="sorteo.html">Sorteos</a>
+        <a class="nav-link" href="promos.html">Promos</a>
+        <span class="nav-ink"></span>
+      </nav>
+      <button class="nav-toggle" aria-label="Abrir menú"><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span></button>
+    </div>
+  </header>
+
+  <main class="container page-narrow">
+    <h1 class="page-title">Sorteos</h1>
+
+    <!-- Slider específico de sorteos -->
+    <div class="slider hero-slider" data-slider>
+      <div class="slides">
+        <div class="slide"><img src="media/promos/slide-sorteos.webp" alt="Sorteo semanal"></div>
+        <div class="slide"><img src="media/promos/slide-joker.webp" alt="Promo Joker"></div>
+        <div class="slide"><img src="media/promos/slide-primer-deposito.webp" alt="Primer depósito"></div>
+      </div>
+      <div class="dots"></div>
+    </div>
+
+    <!-- Box bancario -->
+    <div id="bankBox" class="bank-box" hidden>
+      <div class="bank-box__header">
+        <h3>Transferí con CBU según tu provincia</h3>
+        <small id="bankBoxGeo">(detectando ubicación…)</small>
+      </div>
+      <div class="bank-box__row">
+        <span class="bank-box__label">CBU:</span>
+        <code class="bank-box__value" id="bankCbu">—</code>
+        <button class="btn tiny" data-copy="#bankCbu">Copiar</button>
+      </div>
+      <p class="bank-box__hint">Elegí manualmente si es necesario:</p>
+      <div class="bank-box__select">
+        <select id="provSel">
+          <option value="">Detectar automáticamente</option>
+          <option value="CABA">CABA</option>
+          <option value="BUENOS AIRES">PBA</option>
+          <option value="SANTA FE">Santa Fe</option>
+          <option value="CORDOBA">Córdoba</option>
+          <option value="MENDOZA">Mendoza</option>
+        </select>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bp-footer">
+    <div class="bp-footer__bottom">
+      <div class="container bp-bottom__row">
+        <p class="bp-copy">© 2025 Bplay. Todos los derechos reservados.</p>
+        <ul class="bp-legal-mini">
+          <li><a href="/terminos">Términos</a></li>
+          <li><a href="/politica-privacidad">Privacidad</a></li>
+          <li><a href="/cookies">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fab" data-fab>
+    <button class="fab__main" aria-label="Contactos"><span>+</span></button>
+    <a class="fab__item" href="https://wa.me/5491112345678" target="_blank" rel="noopener">WA</a>
+    <a class="fab__item" href="https://t.me/tu_canal" target="_blank" rel="noopener">TG</a>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

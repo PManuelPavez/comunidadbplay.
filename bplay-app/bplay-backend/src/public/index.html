@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ayuda y Soporte | Bplay</title>
+  <meta name="description" content="Guías rápidas de Depósitos, Retiros, Promociones, Validación de identidad y más. Todo en un solo lugar." />
+  <link rel="canonical" href="https://www.bplay.bet.ar/ayuda">
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+
+  <!-- Tus estilos principales -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Ajustes puntuales (header, slider, promo cuadrada, duo banners y CTAs) -->
+  <style>
+    /* ===== HEADER: logo a la izquierda y 10% más grande ===== */
+    .site-header .nav{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:16px}
+    .site-header .brand{order:0;justify-self:start}
+    .site-header .nav-left{order:1}
+    .site-header .nav-right{order:2}
+    .site-header .header-info{order:3}
+    .site-header .nav-toggle{order:4}
+    .brand-logo{transform:scale(1.1);transform-origin:left center;display:block}
+    @media (max-width:900px){
+      .site-header .nav{grid-template-columns:auto 1fr auto}
+      .site-header .nav-left,.site-header .nav-right,.site-header .header-info{display:none}
+      .site-header .nav-toggle{justify-self:end}
+    }
+
+    /* ===== HERO: slider + promo cuadrada ===== */
+    #hero .hero-row{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 260px; /* derecha igual al ancho de los antiguos botones */
+      gap:20px;align-items:stretch
+    }
+    @media (max-width:900px){#hero .hero-row{grid-template-columns:1fr;gap:12px}}
+
+    .hero-slider{
+      position:relative;width:100%;border-radius:14px;overflow:hidden;
+      aspect-ratio:2200/820; /* alto estable en desktop */
+      background:transparent;
+      box-shadow:none; /* sin bordes */
+    }
+    .hs-track{height:100%;display:grid}
+    .hs-slide{grid-area:1/1;opacity:0;transition:opacity .6s ease}
+    .hs-slide.is-active{opacity:1}
+    .hs-slide img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .hs-dots{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:10px}
+    .hs-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45);border:0;cursor:pointer}
+    .hs-dot.is-active{background:#fff}
+
+    /* Cuadrado promocional (columna derecha) */
+    .hero-square{
+      width:100%;border-radius:14px;overflow:hidden;position:relative;
+      aspect-ratio:1/1; /* cuadrado perfecto */
+      background:transparent; /* sin outline/borde */
+      box-shadow:none;
+    }
+    .hero-square img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* Mobile: recortar altura, centrar cuadrado y “pegar” imágenes */
+    @media (max-width:900px){
+      .hero-slider{aspect-ratio:16/7} /* más compacto como en ayudabplay */
+      .hero-square{max-width:520px;margin-inline:auto}
+    }
+
+    /* ===== Duo de Banners (dos piezas lado a lado) ===== */
+    .promo-duo{margin-top:20px}
+    .promo-duo .duo-grid{
+      display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));
+      gap:20px;justify-content:center;align-items:center
+    }
+    .promo-duo .duo-item{display:grid;place-items:center;text-decoration:none;background:transparent;border:0}
+    .promo-duo .duo-item img{display:block;width:100%;height:auto;object-fit:cover;border-radius:12px}
+    .promo-duo .duo-ph{
+      width:100%;aspect-ratio:2200/360;border-radius:12px;display:grid;place-items:center;
+      background:
+        radial-gradient(80% 120% at 50% 0%, rgba(0,255,171,.18), rgba(0,0,0,.0) 60%),
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75));
+      border:0; box-shadow:none;
+    }
+    .promo-duo .duo-ph span{color:rgba(255,255,255,.7);font-size:.95rem;letter-spacing:.08em;text-transform:uppercase}
+    .promo-duo .duo-ph strong{margin-top:6px;font-size:clamp(1.1rem,2.2vw,1.6rem);color:#fff}
+    @media (max-width:780px){.promo-duo .duo-grid{grid-template-columns:1fr;gap:12px}}
+
+    /* ===== CTAs reubicados bajo los banners ===== */
+    .cta-below{margin-top:2px}
+    .cta-below .cta-row{
+      display:grid;grid-template-columns:repeat(2,minmax(200px,1fr));gap:16px;align-items:center
+    }
+    @media (max-width:560px){.cta-below .cta-row{grid-template-columns:1fr}}
+    .btn{display:inline-grid;place-items:center;padding:.95rem 1rem;border-radius:12px;text-decoration:none;font-weight:700}
+    .btn.primary{background:#18d26e;color:#00150c}
+    .btn.whatsapp{border:1px solid rgba(255,255,255,.18);background:transparent;color:#e7fff4}
+    .btn.whatsapp .wpi{width:1.2rem;height:1.2rem;margin-right:.5rem}
+  </style>
+</head>
+<body>
+  <!-- Fondo decorativo -->
+  <div class="bg-frame" aria-hidden="true"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" role="banner">
+    <div class="nav container">
+      <!-- IZQUIERDA -->
+      <nav class="nav-left nav-tabs" aria-label="Secciones izquierda">
+        <a class="nav-link" href="#deposito-retiro">Depósito/Retiro</a>
+        <a class="nav-link" href="#promociones">Promociones</a>
+        <span class="nav-ink" aria-hidden="true"></span>
+      </nav>
+
+      <!-- LOGO (queda a la izquierda por CSS) -->
+      <a href="/" class="brand" aria-label="BPLAY">
+        <img id="brandLogo" src="assets/brand/bplay-logo.png" alt="BPLAY" class="brand-logo">
+        <span class="brand-fallback" aria-hidden="true" style="display:none">BPLAY</span>
+      </a>
+
+      <!-- DERECHA -->
+      <nav class="nav-right nav-tabs" aria-label="Secciones derecha">
+        <a class="nav-link" href="#faq">FAQ</a>
+        <a class="nav-link" href="#registro" data-register-link id="link-registro">Registro</a>
+        <a class="nav-link" href="#login">Iniciar sesión</a>
+        <span class="nav-ink" aria-hidden="true"></span>
+      </nav>
+
+      <!-- INFO + HAMBURGUESA -->
+      <div class="header-info">
+        <div id="clock">--:--</div>
+        <div id="geo">Argentina</div>
+      </div>
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+
+    <!-- MENÚ MOBILE -->
+    <nav id="mobileMenu" class="mobile-menu" hidden>
+      <ul>
+        <li><a href="#deposito-retiro">Depósito/Retiro</a></li>
+        <li><a href="#promociones">Promociones</a></li>
+        <li><a href="#contacto-soporte">Contacto soporte</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#registro" data-register-link>Registro</a></li>
+        <li><a href="#login">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main id="main" tabindex="-1">
+    <!-- Hero -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-row">
+          <!-- SLIDER -->
+          <div class="hero-slider" id="heroSlider" data-autoplay="5000">
+            <div class="hs-track">
+              <figure class="hs-slide is-active">
+                <img src="media/promos/hero-promociones.webp" alt="Promociones actuales" width="2200" height="820" loading="eager">
+              </figure>
+              <figure class="hs-slide">
+                <img src="media/promos/hero-2.webp" alt="Slots destacados" width="2200" height="820" loading="lazy">
+              </figure>
+              <figure class="hs-slide">
+                <img src="media/promos/hero-3.webp" alt="Apuestas deportivas" width="2200" height="820" loading="lazy">
+              </figure>
+            </div>
+            <div class="hs-dots" aria-label="Controles del slider"></div>
+          </div>
+
+          <!-- Cuadrado de promoción (reemplaza los botones) -->
+          <figure class="hero-square">
+            <img src="media/promos/promo-square.webp" alt="Promo destacada" width="900" height="900" loading="lazy">
+          </figure>
+        </div>
+
+        <!-- Duo de Banners -->
+        <section class="promo-duo" aria-label="Banners informativos">
+          <div class="duo-grid">
+            <a class="duo-item" href="https://wa.me/5491112345678" target="_blank" rel="noopener">
+              <img src="media/promos/contactanos-wpp.webp" alt="Unite a nuestro canal de WhatsApp" width="2200" height="360" loading="lazy">
+            </a>
+            <a class="duo-item" href="#referidos">
+              <div class="duo-ph">
+                <span>Próximamente</span>
+                <strong>Programa de Referidos</strong>
+              </div>
+            </a>
+          </div>
+        </section>
+                <!-- VIP: Promos & Sorteo (liviano, accesible y responsive) -->
+<section id="vip" class="vip-section container" aria-label="Promos y Sorteos VIP">
+  <a href="promos.html" class="vip-card" aria-label="Ir a Promos VIP">
+    <div class="vip-badge" aria-hidden="true">PROMO VIP</div>
+    <h3 class="vip-title">Promos exclusivas</h3>
+    <p class="vip-text">Bonos, giros y beneficios especiales para tu cuenta.</p>
+    <span class="vip-cta">Ver promos</span>
+  </a>
+
+  <a href="sorteo.html" class="vip-card" aria-label="Ir a Sorteo VIP">
+    <div class="vip-badge" aria-hidden="true">SORTEO VIP</div>
+    <h3 class="vip-title">Sorteo semanal</h3>
+    <p class="vip-text">Participá y seguí el calendario de premios.</p>
+    <span class="vip-cta">Ver sorteo</span>
+  </a>
+</section>
+
+
+        <!-- CTAs reubicados abajo de los banners -->
+        <section class="cta-below" aria-label="Acciones rápidas">
+          <div class="cta-row">
+            <a class="btn primary" href="#registro" data-register-link>Registrate</a>
+            <a class="btn whatsapp" href="https://wa.me/5491112345678" target="_blank" rel="noopener">
+              <svg class="wpi" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M12.04 2a9.9 9.9 0 0 0-8.47 14.9L2 22l5.22-1.53A9.94 9.94 0 1 0 12.04 2Zm5.75 14.25c-.24.67-1.18 1.08-1.94 1.22-.52.1-1.2.18-3.5-.73-2.94-1.22-4.83-4.23-4.98-4.42-.14-.18-1.2-1.6-1.2-3.05s.73-2.16 1-2.47c.24-.3.64-.44 1.04-.44h.74c.24 0 .56.08.86.64.28.56.96 1.95 1.04 2.1.08.14.12.32.02.5-.1.2-.16.32-.32.5-.16.16-.32.36-.46.48-.16.16-.34.32-.16.62.18.3.8 1.3 1.72 2.1 1.18 1.06 2.18 1.38 2.5 1.54.32.16.5.14.68-.08.22-.26.78-.9.98-1.22.2-.3.42-.26.7-.16.28.1 1.78.84 2.09.98.32.16.52.24.6.38.06.14.06.78-.18 1.44Z"/>
+              </svg>
+              Contactanos
+            </a>
+          </div>
+        </section>
+
+
+        <!-- Scroller de pagos -->
+        <div class="payments-scroller">
+          <div class="payments-runner">
+            <ul class="payments-track">
+              <li><img class="paylogo" src="assets/payments/uala.png" alt="Ualá"></li>
+              <li><img class="paylogo" src="assets/payments/trilenium.png" alt="Trilenium"></li>
+              <li><img class="paylogo" src="assets/payments/transferencia.png" alt="Transferencia Bancaria"></li>
+              <li><img class="paylogo" src="assets/payments/totalcoin.png" alt="TotalCoin"></li>
+              <li><img class="paylogo" src="assets/payments/modo.png" alt="Modo"></li>
+              <li><img class="paylogo" src="assets/payments/personalpay.png" alt="Personal Pay"></li>
+              <li><img class="paylogo" src="assets/payments/naranjax.png" alt="Naranja X"></li>
+              <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt="Mercado Pago"></li>
+              <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt="Claro Pay"></li>
+              <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt="Cabal"></li>
+            </ul>
+            <ul class="payments-track" aria-hidden="true">
+              <li><img class="paylogo" src="assets/payments/uala.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/trilenium.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/transferencia.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/totalcoin.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/modo.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/personalpay.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/naranjax.png" alt=""></li>
+              <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt=""></li>
+              <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt=""></li>
+              <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt=""></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categorías -->
+    <section id="categorias">
+      <div class="container">
+        <h2>Categorías</h2>
+        <div class="cat-grid">
+          <button class="cat-card" type="button" data-target="modal-depositos"><h3>Depósitos</h3><p>Cómo cargar saldo, tiempos y medios.</p></button>
+          <button class="cat-card" type="button" data-target="modal-retiros"><h3>Retiros</h3><p>Cómo retirar, requisitos y demoras.</p></button>
+          <button class="cat-card" type="button" data-target="modal-promos"><h3>Promociones</h3><p>Condiciones de uso y validez.</p></button>
+          <button class="cat-card" type="button" data-target="modal-identidad"><h3>Validación de identidad</h3><p>Documentos, selfie y estado de validación.</p></button>
+
+          <button class="cat-card" type="button" data-target="modal-apuestas-que-es">
+            <h3>¿Qué son las apuestas deportivas?</h3><p>Conceptos básicos y cómo funcionan.</p>
+          </button>
+          <button class="cat-card" type="button" data-target="modal-apuestas-como-hacer">
+            <h3>¿Cómo hacer una apuesta deportiva en Bplay?</h3><p>Paso a paso para crear tu cupón.</p>
+          </button>
+          <button class="cat-card" type="button" data-target="modal-apuestas-general">
+            <h3>Apuestas deportivas en Bplay</h3><p>Recorrido general del Sportsbook.</p>
+          </button>
+
+          <button class="cat-card" type="button" data-target="modal-problemas"><h3>Problemas comunes</h3><p>Errores frecuentes y soluciones rápidas.</p></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MODALES ===== -->
+    <section id="modal-depositos" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Guía de depósitos</h3>
+        <p>Cómo cargar saldo usando tu método favorito.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Depósitos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-apuestas-que-es" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>¿Qué son las apuestas deportivas?</h3>
+        <p>Introducción a cuotas, mercados y resultados.</p>
+        <iframe data-yt width="100%" height="360" src="" title="¿Qué son las apuestas deportivas?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-apuestas-como-hacer" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>¿Cómo hacer una apuesta deportiva en Bplay?</h3>
+        <p>Seleccioná evento, mercado, cuota y confirmá.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Cómo apostar en Bplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-apuestas-general" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Apuestas deportivas en Bplay</h3>
+        <p>Tour general por funciones del Sportsbook.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Apuestas deportivas en Bplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-retiros" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Guía de retiros</h3>
+        <p>Cómo retirar a tu CBU/CVU y tiempos estimados.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Retiros" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-promos" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Usar un código promocional</h3>
+        <p>Activá y usá tus bonos. Revisá condiciones de cada beneficio.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Promos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-identidad" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Validación de identidad</h3>
+        <p>Completá documento y selfie desde tu perfil.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Identidad" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-problemas" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Solución de problemas comunes</h3>
+        <p>Errores frecuentes y cómo resolverlos rápidamente.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Problemas comunes" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <!-- Mega banner + video -->
+    <section class="mega-promo container">
+      <div class="mega-grid">
+        <a class="mega-banner" href="#" title="+ de 1000 slots">
+          <img src="assets/banners/slots-2200x360.jpg" alt="+ de 1000 slots en nuestra plataforma">
+        </a>
+        <div class="mega-video">
+          <iframe
+            width="100%" height="100%"
+            src="https://www.youtube.com/embed/hgsRNl0xiOQ?rel=0&modestbranding=1"
+            title="Bplay Propaganda" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bp-footer" role="contentinfo">
+    <div class="bp-footer__top">
+      <div class="container bp-footer__grid">
+        <section class="bp-col">
+          <h3 class="bp-brand">BPLAY</h3>
+          <p class="bp-foot-text">Te ayudamos a resolver todo en 1 minuto.</p>
+          <ul class="bp-contact">
+            <li><a href="https://wa.me/5491171913526" class="bp-contact__item">💬 WhatsApp</a></li>
+            <li><a href="mailto:atencionbplayperg@gmail.com
+" class="bp-contact__item">✉️ soporte@bplay.bet.ar</a></li>
+            <li><a href="tel:+541171913526" class="bp-contact__item">📞 11 7191-3526</a></li>
+          </ul>
+        </section>
+
+        <nav class="bp-col" aria-labelledby="t-enlaces">
+          <h4 id="t-enlaces" class="bp-title">Enlaces útiles</h4>
+          <ul class="bp-links">
+            <li><a href="#faq">Centro de ayuda / FAQ</a></li>
+            <li><a href="#deposito-retiro" data-open="deposito-retiro">Depósitos y Retiros</a></li>
+            <li><a href="#promociones" data-open="promociones">Promociones</a></li>
+            <li><a href="#registro" data-register-link>Registro</a></li>
+            <li><a href="/terminos">Términos y condiciones</a></li>
+            <li><a href="/juego-responsable">Juego responsable</a></li>
+          </ul>
+        </nav>
+
+        <section class="bp-col" aria-labelledby="t-pagos">
+          <h4 id="t-pagos" class="bp-title">Métodos de pago</h4>
+          <ul class="bp-payments">
+            <li><img class="bp-paylogo" src="assets/payments/uala.png" alt="Ualá"></li>
+            <li><img class="bp-paylogo" src="assets/payments/trilenium.png" alt="Trilenium"></li>
+            <li><img class="bp-paylogo" src="assets/payments/transferencia.png" alt="Transferencia bancaria"></li>
+            <li><img class="bp-paylogo" src="assets/payments/totalcoin.png" alt="TotalCoin"></li>
+            <li><img class="bp-paylogo" src="assets/payments/modo.png" alt="Modo"></li>
+            <li><img class="bp-paylogo" src="assets/payments/personalpay.png" alt="Personal Pay"></li>
+            <li><img class="bp-paylogo" src="assets/payments/naranjax.png" alt="Naranja X"></li>
+            <li><img class="bp-paylogo bp--mercadopago" src="assets/payments/mercadopago.svg" alt="Mercado Pago"></li>
+            <li><img class="bp-paylogo bp--claropay" src="assets/payments/claropay.svg" alt="Claro Pay"></li>
+            <li><img class="bp-paylogo bp--cabal" src="assets/payments/cabal.png" alt="Cabal"></li>
+          </ul>
+          <p class="bp-foot-muted">La disponibilidad de métodos puede variar según tu jurisdicción/provincia y estado de tu cuenta.</p>
+        </section>
+
+        <section class="bp-col" aria-labelledby="t-cumplimiento">
+          <h4 id="t-cumplimiento" class="bp-title">Cumplimiento</h4>
+          <ul class="bp-badges">
+            <li><span class="bp-badge">+18</span></li>
+            <li><span class="bp-badge">Jugar Responsable</span></li>
+            <li><span class="bp-badge">Cifrado TLS</span></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <div class="bp-footer__bottom">
+      <div class="container bp-bottom__row">
+        <p class="bp-copy">© 2025 Bplay. Todos los derechos reservados.</p>
+        <ul class="bp-legal-mini">
+          <li><a href="/terminos">Términos</a></li>
+          <li><a href="/politica-privacidad">Privacidad</a></li>
+          <li><a href="/cookies">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JS ===== -->
+  <script>
+    /* ===== Fallback logo ===== */
+    (function(){
+      const img = document.getElementById('brandLogo');
+      if (!img) return;
+      img.addEventListener('error', function onSvgError(){
+        if (!img.dataset.fallbackTried) {
+          img.dataset.fallbackTried = '1';
+          img.src = './assets/brand/bplay-logo.png';
+        } else {
+          img.style.display = 'none';
+          document.querySelector('.brand .brand-fallback')?.classList.add('show');
+          console.warn('[LOGO] No se pudo cargar ni SVG ni PNG. Fallback tipográfico.');
+        }
+      }, { once:false });
+    })();
+
+    (()=>{
+      /* ====== HAMBURGUESA ====== */
+      const body=document.body, t=document.querySelector('.nav-toggle'), m=document.getElementById('mobileMenu');
+      const open=()=>{ body.classList.add('menu-open'); m?.removeAttribute('hidden'); t?.setAttribute('aria-expanded','true'); };
+      const close=()=>{ body.classList.remove('menu-open'); m?.setAttribute('hidden',''); t?.setAttribute('aria-expanded','false'); };
+      t?.addEventListener('click', ()=> (body.classList.contains('menu-open')?close():open()));
+      m?.addEventListener('click', e=>{ if(e.target.closest('a')) close(); });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape' && body.classList.contains('menu-open')) close(); });
+
+      /* ====== RELOJ ====== */
+      const clock = document.getElementById('clock');
+      const tick = () => { if (!clock) return; const n=new Date();
+        clock.textContent = n.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+      };
+      tick(); setInterval(tick, 1000);
+
+      /* ====== REGISTRO POR JURISDICCIÓN ====== */
+      const REG = {
+        "BUENOS AIRES": "https://pba.bplay.bet.ar/register?memberid=10163&sourceid=73",
+        "CABA":          "https://caba.bplay.bet.ar/register?memberid=37&sourceid=14",
+        "SANTA FE":      "https://santafe.bplay.bet.ar/register?memberid=10154&sourceid=12",
+        "CORDOBA":       "https://cordoba.bplay.bet.ar/register?memberid=21&sourceid=6",
+        "MENDOZA":       "https://mendoza.bplay.bet.ar/register?memberid=33&sourceid=6",
+      };
+      const DEF = "https://www.bplay.bet.ar/registro";
+      const regLinks = document.querySelectorAll('[data-register-link]');
+      const geoEl = document.getElementById('geo');
+
+      const setReg = (key) => {
+        const url = REG[key] || DEF;
+        regLinks.forEach(a => a.href = url);
+        const el = document.getElementById('link-registro');
+        if (el) el.title = `Registro → ${url} ${key?`(${key})`:"(default)"}`;
+        console.log('[REGISTRO]', {jurisdiccion: key || 'default', url});
+      };
+
+      const normalizeProvince = (raw="") => {
+        let k = raw.toUpperCase()
+          .replaceAll("Á","A").replaceAll("É","E").replaceAll("Í","I").replaceAll("Ó","O").replaceAll("Ú","U");
+        if (k.includes("AUTONOMA") && k.includes("BUENOS AIRES")) return "CABA";
+        if (k.includes("CIUDAD AUTONOMA")) return "CABA";
+        if (k.includes("CABA")) return "CABA";
+        if (k.includes("BUENOS AIRES")) return "BUENOS AIRES";
+        if (k.includes("SANTA FE")) return "SANTA FE";
+        if (k.includes("CORDOBA")) return "CORDOBA";
+        if (k.includes("MENDOZA")) return "MENDOZA";
+        return null;
+      };
+
+      const H = location.host.toUpperCase();
+      if (H.includes("CABA")) setReg("CABA");
+      else if (H.includes("SANTAFE")) setReg("SANTA FE");
+      else if (H.includes("CORDOBA")) setReg("CORDOBA");
+      else if (H.includes("MENDOZA")) setReg("MENDOZA");
+      else if (H.includes("PBA") || H.includes("BUENOSAIRES")) setReg("BUENOS AIRES");
+      else setReg(null);
+
+      async function reverseGeocode(lat, lon){
+        try{
+          const u = new URL("https://nominatim.openstreetmap.org/reverse");
+          u.searchParams.set("format","jsonv2");
+          u.searchParams.set("lat",lat); u.searchParams.set("lon",lon);
+          u.searchParams.set("zoom","10");
+          u.searchParams.set("accept-language","es");
+          const r = await fetch(u, {headers:{ "User-Agent":"bplay-help/1.0", "Referer": location.origin }});
+          if (!r.ok) throw 0;
+          const d = await r.json();
+          const a = d.address || {};
+          const prov = a.state || a.region || a.province || "";
+          const city = a.city || a.town || a.village || "";
+          const label = prov ? (city ? `${city}, ${prov}` : prov) : (city || "Argentina");
+          if (geoEl) geoEl.textContent = label;
+          const key = normalizeProvince(prov);
+          if (key) setReg(key);
+        }catch(e){
+          if (geoEl && !geoEl.textContent) geoEl.textContent = "Argentina";
+        }
+      }
+      if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(
+          p => reverseGeocode(p.coords.latitude, p.coords.longitude),
+          () => { if (geoEl && !geoEl.textContent) geoEl.textContent = "Argentina"; },
+          { enableHighAccuracy:false, timeout:3000, maximumAge:600000 }
+        );
+      } else {
+        if (geoEl && !geoEl.textContent) geoEl.textContent = "Argentina";
+      }
+
+      /* ====== MODALES ====== */
+      const YT = {
+        promos:       "Y4oIwbRD6kk",
+        depositos:    "fOHKlUBGsaI",
+        identidad:    "esIjo3nCNc8",
+        retiros:      "cRu3etHQErw",
+        apuestasQue:  "wfASOZ-QljY",
+        apuestasComo: "-nof5RZcQyk",
+        apuestasGral: "t9rZChJbdTE",
+      };
+      const MODAL_VIDEO = {
+        "modal-depositos":           YT.depositos,
+        "modal-retiros":             YT.retiros,
+        "modal-promos":              YT.promos,
+        "modal-identidad":           YT.identidad,
+        "modal-problemas":           YT.retiros,
+        "modal-apuestas-que-es":     YT.apuestasQue,
+        "modal-apuestas-como-hacer": YT.apuestasComo,
+        "modal-apuestas-general":    YT.apuestasGral,
+      };
+
+      /* ====== Overlays ====== */
+      function openModal(id, vid){
+        const m=document.getElementById(id); if(!m) return;
+        const f=m.querySelector('iframe[data-yt]'); if(f && vid) f.src=`https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1`;
+        m.hidden=false; document.documentElement.style.overflow="hidden";
+      }
+      function closeModal(el){
+        const m=el.closest('.overlay'); if(!m) return;
+        const f=m.querySelector('iframe[data-yt]'); if(f) f.src="";
+        m.hidden=true; document.documentElement.style.overflow="";
+      }
+      document.addEventListener('click',e=>{
+        if(e.target.matches('[data-close]') || e.target.classList.contains('overlay')) closeModal(e.target);
+      });
+      document.addEventListener('keydown',e=>{
+        if(e.key==='Escape'){ document.querySelectorAll('.overlay:not([hidden])').forEach(ov=>{ const b=ov.querySelector('[data-close]')||ov; closeModal(b); }); }
+      });
+      const bind=(sel,cb)=>document.querySelectorAll(sel).forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); cb();}));
+      bind('a[href="#deposito-retiro"], a[data-open="deposito-retiro"]', ()=>openModal('modal-depositos', MODAL_VIDEO['modal-depositos']));
+      bind('a[href="#promociones"], a[data-open="promociones"]',       ()=>openModal('modal-promos',    MODAL_VIDEO['modal-promos']));
+      bind('a[href="#contacto-soporte"], a[data-open="contacto"]',     ()=>openModal('modal-problemas', MODAL_VIDEO['modal-problemas']));
+      document.querySelectorAll('.cat-card[data-target]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const id=btn.getAttribute('data-target'); openModal(id, MODAL_VIDEO[id]);
+        });
+      });
+
+      /* ====== NAV INK ====== */
+      const groups = document.querySelectorAll('.nav-tabs');
+      const moveInkTo = (ink, link) => {
+        if(!ink || !link) return;
+        const r = link.getBoundingClientRect();
+        const g = ink.parentElement.getBoundingClientRect();
+        const w = Math.max(28, r.width);
+        ink.style.width = w + 'px';
+        ink.style.transform = `translateX(${r.left - g.left}px)`;
+        ink.style.opacity = '1';
+      };
+      const activate = (group, link) => {
+        group.querySelectorAll('.nav-link').forEach(a=>a.classList.toggle('is-active', a===link));
+        moveInkTo(group.querySelector('.nav-ink'), link);
+      };
+      groups.forEach(group=>{
+        const links = group.querySelectorAll('.nav-link');
+        const ink   = group.querySelector('.nav-ink');
+        if(!links.length || !ink) return;
+        const byHash = [...links].find(a => a.getAttribute('href') === location.hash);
+        activate(group, byHash || links[0]);
+        links.forEach(a=>{
+          a.addEventListener('mouseenter', ()=> moveInkTo(ink, a));
+          a.addEventListener('click', ()=> activate(group, a));
+        });
+        group.addEventListener('mouseleave', ()=>{
+          const active = group.querySelector('.nav-link.is-active') || links[0];
+          moveInkTo(ink, active);
+        });
+        window.addEventListener('resize', ()=>{
+          const active = group.querySelector('.nav-link.is-active') || links[0];
+          moveInkTo(ink, active);
+        });
+      });
+
+      /* ====== SLIDER (fade + autoplay) ====== */
+      const slider = document.getElementById('heroSlider');
+      if (slider){
+        const slides = Array.from(slider.querySelectorAll('.hs-slide'));
+        const dotsWrap = slider.querySelector('.hs-dots');
+        const delay = parseInt(slider.dataset.autoplay || '5000', 10);
+        let idx = 0, timer = null, isHover=false;
+
+        slides.forEach((_,i)=>{
+          const b=document.createElement('button');
+          b.className='hs-dot' + (i===0?' is-active':'');
+          b.setAttribute('aria-label', `Ir al slide ${i+1}`);
+          b.addEventListener('click', ()=>go(i,true));
+          dotsWrap.appendChild(b);
+        });
+        const dots = Array.from(dotsWrap.children);
+
+        function go(n, user=false){
+          slides[idx].classList.remove('is-active');
+          dots[idx].classList.remove('is-active');
+          idx = (n+slides.length)%slides.length;
+          slides[idx].classList.add('is-active');
+          dots[idx].classList.add('is-active');
+          if (user) restart();
+        }
+        function next(){ go(idx+1); }
+        function start(){ timer = setInterval(()=>{ if(!isHover) next(); }, delay); }
+        function stop(){ clearInterval(timer); timer=null; }
+        function restart(){ stop(); start(); }
+        slider.addEventListener('mouseenter', ()=>{isHover=true;});
+        slider.addEventListener('mouseleave', ()=>{isHover=false;});
+        let sx=0, dx=0;
+        slider.addEventListener('pointerdown', e=>{sx=e.clientX; slider.setPointerCapture(e.pointerId);});
+        slider.addEventListener('pointerup', e=>{dx=e.clientX-sx; if(Math.abs(dx)>40){ go(idx + (dx<0?1:-1), true);} sx=0; dx=0;});
+        start();
+      }
+    })();
+  </script>
+  <script>
+/* ============ FAB Contacto – inyección automática ============ */
+(function(){
+  const CONTACTO = {
+    whatsapp: { // usa el que ya venís usando en el sitio
+      phone: "5491112345678",            // solo dígitos con prefijo país
+      text: "Hola, necesito ayuda desde la web de Bplay."
+    },
+    telegram: {
+      handle: "bplaysoporte"             // sin @  -> https://t.me/bplaysoporte
+    },
+    email: {
+      to: "atencionbplayperg@gmail.com",
+      subject: "Consulta desde la web",
+      body: "Hola equipo, tengo la siguiente consulta:"
+    }
+  };
+
+  const el = document.createElement('div');
+  el.innerHTML = `
+    <div class="fab-wrap" aria-expanded="false" aria-label="Contacto rápido">
+      <nav class="fab-panel" aria-hidden="true">
+        <a class="fab-item" href="${waLink(CONTACTO.whatsapp)}" target="_blank" rel="noopener">
+          <span class="fab-item__icon">${icoWhats()}</span>
+          <div>
+            <div class="fab-item__title">WhatsApp <span class="fab-badge">rápido</span></div>
+            <div class="fab-item__desc">Respuesta prioritaria</div>
+          </div>
+        </a>
+
+        <a class="fab-item" href="${tgLink(CONTACTO.telegram)}" target="_blank" rel="noopener">
+          <span class="fab-item__icon">${icoTelegram()}</span>
+          <div>
+            <div class="fab-item__title">Telegram</div>
+            <div class="fab-item__desc">@${CONTACTO.telegram.handle}</div>
+          </div>
+        </a>
+
+        <a class="fab-item" href="${mailLink(CONTACTO.email)}">
+          <span class="fab-item__icon">${icoMail()}</span>
+          <div>
+            <div class="fab-item__title">Email</div>
+            <div class="fab-item__desc">${CONTACTO.email.to}</div>
+          </div>
+        </a>
+      </nav>
+
+      <button class="fab-btn" type="button" aria-label="Abrir menú de contacto" aria-controls="fabPanel">
+        ${icoChat()}
+      </button>
+    </div>
+    <button class="fab-backdrop" aria-hidden="true" tabindex="-1"></button>
+  `;
+  const wrap = el.firstElementChild;
+  const backdrop = el.querySelector('.fab-backdrop');
+  document.body.appendChild(wrap);
+  document.body.appendChild(backdrop);
+
+  const btn = wrap.querySelector('.fab-btn');
+  const panel = wrap.querySelector('.fab-panel');
+  panel.id = "fabPanel";
+
+  const open = ()=>{ wrap.setAttribute('aria-expanded','true'); panel.setAttribute('aria-hidden','false'); btn.setAttribute('aria-label','Cerrar menú de contacto'); };
+  const close = ()=>{ wrap.setAttribute('aria-expanded','false'); panel.setAttribute('aria-hidden','true'); btn.setAttribute('aria-label','Abrir menú de contacto'); };
+  const toggle = ()=> wrap.getAttribute('aria-expanded') === 'true' ? close() : open();
+
+  btn.addEventListener('click', toggle);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape') close(); });
+
+  // Cerrar si se hace click fuera (por si quitas el backdrop)
+  document.addEventListener('click', e=>{
+    if (!wrap.contains(e.target)) close();
+  }, {capture:true});
+
+  /* Helpers de enlaces ---------------------------------------------------- */
+  function waLink({phone, text}){
+    const msg = encodeURIComponent(text || "");
+    return `https://wa.me/${phone}?text=${msg}`;
+  }
+  function tgLink({handle}){
+    return `https://t.me/${handle.replace(/^@/,'')}`;
+  }
+  function mailLink({to, subject, body}){
+    const s = encodeURIComponent(subject||"");
+    const b = encodeURIComponent(body||"");
+    return `mailto:${to}?subject=${s}&body=${b}`;
+  }
+
+  /* SVGs inline – livianos y sin dependencias ----------------------------- */
+  function icoChat(){ return `
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 3c-4.97 0-9 3.58-9 8 0 1.92.73 3.68 1.97 5.06L4 21l4.18-1.56C9.21 19.81 10.58 20 12 20c4.97 0 9-3.58 9-8s-4.03-9-9-9Z" fill="currentColor" />
+    </svg>`; }
+  function icoWhats(){ return `
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12.04 2a9.9 9.9 0 0 0-8.47 14.9L2 22l5.22-1.53A9.94 9.94 0 1 0 12.04 2Zm5.75 14.25c-.24.67-1.18 1.08-1.94 1.22-.52.1-1.2.18-3.5-.73-2.94-1.22-4.83-4.23-4.98-4.42-.14-.18-1.2-1.6-1.2-3.05s.73-2.16 1-2.47c.24-.3.64-.44 1.04-.44h.74c.24 0 .56.08.86.64.28.56.96 1.95 1.04 2.1.08.14.12.32.02.5-.1.2-.16.32-.32.5-.16.16-.32.36-.46.48-.16.16-.34.32-.16.62.18.3.8 1.3 1.72 2.1 1.18 1.06 2.18 1.38 2.5 1.54.32.16.5.14.68-.08.22-.26.78-.9.98-1.22.2-.3.42-.26.7-.16.28.1 1.78.84 2.09.98.32.16.52.24.6.38.06.14.06.78-.18 1.44Z"/>
+    </svg>`; }
+  function icoTelegram(){ return `
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M9.06 15.47 8.88 19a1 1 0 0 0 1.62.78l2.4-1.94 4.35 3.2c.73.53 1.77.13 2-0.76l3.61-13.87c.25-.97-.73-1.79-1.65-1.4L2.2 10.01a1 1 0 0 0 .02 1.86l5.4 2.1 8.68-5.85-7.24 7.35Z"/>
+    </svg>`; }
+  function icoMail(){ return `
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/>
+    </svg>`; }
+})();
+</script>
+
+</body>
+</html>
