@@ -2097,4 +2097,73 @@ html{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   justify-self: start;   /* en vez de center */
   margin-left: 8px;      /* opcional, ajuste fino */
 }
+/* ===== Botón VIP CBU en header (desktop) ===== */
+.site-header .nav{
+  display:grid;
+  grid-template-columns: auto auto 1fr auto auto; /* logo | VIP | filler | nav-right | info/burger */
+  align-items:center;
+  gap:16px;
+}
+
+.brand{ order:0; justify-self:start; }
+.vip-head-btn{
+  order:1;
+  justify-self:start;              /* si lo querés más a la izquierda */
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:900;
+  letter-spacing:.06em;
+  color:#2b2100;
+  background:linear-gradient(180deg,#ffe784,#ffd94a);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 0 18px rgba(255,217,74,.28), 0 6px 14px rgba(0,0,0,.35);
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+/* Hover/foco */
+.vip-head-btn:hover{ filter:brightness(1.03); transform:translateY(-1px); transition:.15s ease; }
+.vip-head-btn:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+/* ===== Mobile: visible, centrado y que no rompa el header ===== */
+@media (max-width:900px){
+  .site-header .nav{
+    grid-template-columns: auto 1fr auto;      /* logo | vip | burger */
+    grid-template-areas: "brand vip toggle";
+  }
+  .brand{ grid-area:brand; justify-self:start; }
+  .vip-head-btn{
+    grid-area:vip;
+    justify-self:center;                        /* centrado visual */
+    padding:6px 10px;
+    font-size:.85rem;
+    max-width: 160px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .nav-toggle{ grid-area:toggle; justify-self:end; }
+
+  /* Si ocultás info/tabs en mobile, mantenelos así para liberar espacio */
+  .nav-left, .nav-right, .header-info{ display:none !important; }
+}
+
+/* Extra chico (≤ 360px): comprimimos un poco más */
+@media (max-width:360px){
+  .vip-head-btn{ padding:5px 9px; font-size:.8rem; max-width: 140px; }
+}
+
+/* Versión dentro del menú mobile: estilo consistente pero full width */
+.vip-head-btn--mobile{
+  display:block;
+  text-align:center;
+  margin:6px 0 10px;
+  padding:10px 12px;
+  border-radius:999px;
+  font-weight:900;
+  letter-spacing:.06em;
+  color:#2b2100;
+  background:linear-gradient(180deg,#ffe784,#ffd94a);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 0 14px rgba(255,217,74,.22), 0 4px 12px rgba(0,0,0,.35);
+}
 
