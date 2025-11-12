@@ -2166,4 +2166,66 @@ html{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   border:1px solid rgba(255,255,255,.15);
   box-shadow:0 0 14px rgba(255,217,74,.22), 0 4px 12px rgba(0,0,0,.35);
 }
+/* ===== Layout del header, orden y columnas sólidas ===== */
+.site-header .nav{
+  display:grid;
+  grid-template-columns: auto auto 1fr auto auto; /* brand | CBU | espacio | nav-right | info/burger */
+  align-items:center;
+  column-gap:16px;
+}
+
+/* Orden y alineaciones en grid */
+.site-header .brand{ order:0; justify-self:start; }
+.site-header .vip-head-btn{ order:1; } /* CBU */
+.site-header .nav-left{ order:2; justify-self:center; }  /* si lo usás, queda al centro del ancho flexible */
+.site-header .nav-right{ order:3; justify-self:end; }
+.site-header .header-info{ order:4; justify-self:end; text-align:right; }
+.site-header .nav-toggle{ order:5; justify-self:end; }
+
+/* Logo un 10% más grande, anclado a la izquierda */
+.brand-logo{ transform:scale(1.1); transform-origin:left center; display:block; }
+
+/* Botón VIP CBU (píldora amarilla) */
+.vip-head-btn{
+  justify-self:center;
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:900;
+  letter-spacing:.06em;
+  color:#2b2100; /* texto negro-marrón */
+  background:linear-gradient(180deg,#ffe784,#ffd94a);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 0 18px rgba(255,217,74,.28), 0 6px 14px rgba(0,0,0,.35);
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+/* MOBILE: mostrar CBU junto al logo, ocultar barras extensas */
+@media (max-width:900px){
+  .site-header .nav{
+    grid-template-columns: auto auto 1fr auto;           /* logo | CBU | espacio | burger */
+    grid-template-areas: "brand cbu spacer burger";
+  }
+  .site-header .brand{ grid-area:brand; }
+  .site-header .vip-head-btn{ grid-area:cbu; margin-left:8px; font-size:.85rem; padding:6px 10px; }
+  .site-header .nav-left,
+  .site-header .nav-right,
+  .site-header .header-info{ display:none !important; }  /* limpio */
+  .site-header .nav-toggle{ grid-area:burger; justify-self:end; }
+}
+
+/* MENÚ HAMBURGUESA: CBU pastilla amarilla con texto negro */
+.mobile-menu a.menu-cbu{
+  color:#0b0b0b !important;                /* TEXTO NEGRO */
+  background:linear-gradient(180deg,#ffe784,#ffd94a);
+  border:1px solid rgba(0,0,0,.12);
+  font-weight:900;
+}
+.mobile-menu a.menu-cbu:hover{
+  filter:brightness(1.02);
+  transform:translateY(-1px);
+}
+
+/* Evitar “hueco” raro bajo el header (la raya que mostraste): */
+.site-header{ border-bottom:1px solid rgba(255,255,255,.06); }
 
