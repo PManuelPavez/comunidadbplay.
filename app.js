@@ -393,3 +393,74 @@ document.addEventListener('click', async (e)=>{
     alert('No se pudo copiar. Seleccioná y copiá manualmente.');
   }
 });
+function enableSwipe(sliderEl, onSwipeLeft, onSwipeRight){
+  let sx = 0, sy = 0, locked = false;
+
+  // start
+  sliderEl.addEventListener('touchstart', (e)=>{
+    const t = e.touches[0];
+    sx = t.clientX; sy = t.clientY;
+    locked = false;
+  }, {passive:true});
+
+  // move: si detectamos gesto horizontal dominante, prevenimos el scroll
+  sliderEl.addEventListener('touchmove', (e)=>{
+    if (e.touches.length !== 1) return;
+    if (locked) { e.preventDefault(); return; }  // ya “tomamos” el gesto
+
+    const t  = e.touches[0];
+    const dx = t.clientX - sx;
+    const dy = t.clientY - sy;
+
+    // umbral pequeño y prioridad a horizontal
+    if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)){
+      locked = true;
+      e.preventDefault(); // <- evita el scroll nativo
+    }
+  }, {passive:false}); // importante: passive:false para poder prevenir
+
+  // end: si hubo swipe horizontal real, navegamos
+  sliderEl.addEventListener('touchend', (e)=>{
+    if (!locked) return;
+    const t  = e.changedTouches[0];
+    const dx = t.clientX - sx;
+    if (dx < -40) onSwipeLeft?.();   // siguiente
+    else if (dx >  40) onSwipeRight?.(); // anterior
+    locked = false;
+  }, {passive:true});
+}
+/* === Guard de swipe: bloquea scroll horizontal nativo y llama a go() === */
+function enableSwipe(el, onLeft, onRight){
+  let sx = 0, sy = 0, taking = false;
+
+  el.addEventListener('touchstart', (e)=>{
+    const t = e.touches[0];
+    sx = t.clientX; sy = t.clientY;
+    taking = false;
+  }, {passive:true});
+
+  el.addEventListener('touchmove', (e)=>{
+    if (e.touches.length !== 1) return;
+    if (taking) { e.preventDefault(); return; }
+
+    const t  = e.touches[0];
+    const dx = t.clientX - sx;
+    const dy = t.clientY - sy;
+
+    // si el gesto es mayormente horizontal, "tomamos" el control
+    if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)){
+      taking = true;
+      e.preventDefault(); // <- clave para que no haga scroll nativo
+    }
+  }, {passive:false}); // importantísimo: passive:false
+
+  el.addEventListener('touchend', (e)=>{
+    if (!taking) return;
+    const t  = e.changedTouches[0];
+    const dx = t.clientX - sx;
+    if (dx < -40) onLeft?.();   // siguiente
+    else if (dx > 40) onRight?.(); // anterior
+    taking = false;
+  }, {passive:true});
+}
+
