@@ -2072,4 +2072,8 @@ html{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   html, body { overflow-x: hidden; }
   * { min-width: 0; }
 }
+/* los enlaces ocupan todo el slide y son clickeables */
+.hs-link{display:block;height:100%;width:100%}
+#heroSlider{overflow:hidden;touch-action:pan-y}
+#heroSlider img{-webkit-user-drag:none;user-drag:none}
 
