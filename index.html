@@ -24,10 +24,23 @@
     .site-header .header-info{order:3}
     .site-header .nav-toggle{order:4}
     .brand-logo{transform:scale(1.1);transform-origin:left center;display:block}
+
+    /* Botón VIP CBU centrado en header */
+    .vip-head-btn{
+      justify-self:center;
+      padding:8px 14px;border-radius:999px;font-weight:900;letter-spacing:.06em;
+      color:#2b2100;background:linear-gradient(180deg,#ffe784,#ffd94a);
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow:0 0 18px rgba(255,217,74,.28), 0 6px 14px rgba(0,0,0,.35);
+      text-decoration:none;white-space:nowrap
+    }
+    .vip-head-btn:hover{filter:brightness(1.04)}
+
     @media (max-width:900px){
       .site-header .nav{grid-template-columns:auto 1fr auto}
       .site-header .nav-left,.site-header .nav-right,.site-header .header-info{display:none}
       .site-header .nav-toggle{justify-self:end}
+      .vip-head-btn{display:none} /* opcional ocultar en mobile */
     }
 
     /* ===== HERO: slider + promo cuadrada ===== */
@@ -43,11 +56,15 @@
       aspect-ratio:2200/820; /* alto estable en desktop */
       background:transparent;
       box-shadow:none; /* sin bordes */
+      /* Mejora de interacción mobile */
+      touch-action: pan-y;
     }
     .hs-track{height:100%;display:grid}
-    .hs-slide{grid-area:1/1;opacity:0;transition:opacity .6s ease;cursor:pointer}
+    .hs-slide{grid-area:1/1;opacity:0;transition:opacity .6s ease;position:relative}
     .hs-slide.is-active{opacity:1}
     .hs-slide img{width:100%;height:100%;object-fit:cover;display:block}
+    /* Link cubre todo el slide */
+    .hs-link{position:absolute;inset:0;display:block}
 
     .hs-dots{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:10px}
     .hs-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45);border:0;cursor:pointer}
@@ -61,7 +78,7 @@
       box-shadow:none;
     }
     .hero-square img{width:100%;height:100%;object-fit:cover;display:block}
-    .hero-square a{display:block;height:100%}
+    .hero-square a{position:absolute;inset:0;display:block}
 
     /* Mobile: recortar altura, centrar cuadrado y “pegar” imágenes */
     @media (max-width:900px){
@@ -98,10 +115,6 @@
     .btn.primary{background:#18d26e;color:#00150c}
     .btn.whatsapp{border:1px solid rgba(255,255,255,.18);background:transparent;color:#e7fff4}
     .btn.whatsapp .wpi{width:1.2rem;height:1.2rem;margin-right:.5rem}
-
-    /* Slider mobile: sin desplazamiento nativo horizontal */
-    #heroSlider{overflow:hidden;touch-action:pan-y}
-    #heroSlider img{-webkit-user-drag:none;user-drag:none}
   </style>
 </head>
 <body>
@@ -113,22 +126,25 @@
     <div class="nav container">
       <!-- IZQUIERDA -->
       <nav class="nav-left nav-tabs" aria-label="Secciones izquierda">
-        <a class="nav-link" href="promos.html">DEPOSITAR</a>
-        <a class="nav-link" href="promos.html">PROMOS VIP</a>
+        <a class="nav-link" href="#deposito-retiro">Depósito/Retiro</a>
+        <a class="nav-link" href="#promociones">Promociones</a>
         <span class="nav-ink" aria-hidden="true"></span>
       </nav>
 
       <!-- LOGO (queda a la izquierda por CSS) -->
-      <a href="index.html" class="brand" aria-label="BPLAY">
+      <a href="/" class="brand" aria-label="BPLAY">
         <img id="brandLogo" src="assets/brand/bplay-logo.png" alt="BPLAY" class="brand-logo">
         <span class="brand-fallback" aria-hidden="true" style="display:none">BPLAY</span>
       </a>
 
+      <!-- BOTÓN VIP CBU (CENTRO) -->
+      <a href="cbu.html" class="vip-head-btn" title="CBU según tu ubicación">CBU VIP</a>
+
       <!-- DERECHA -->
       <nav class="nav-right nav-tabs" aria-label="Secciones derecha">
         <a class="nav-link" href="#faq">FAQ</a>
-        <a class="nav-link" href="#registro" data-register-link id="link-registro">REGISTRO</a>
-        <a class="nav-link" href="#login">INICIAR SESIÓN</a>
+        <a class="nav-link" href="#registro" data-register-link id="link-registro">Registro</a>
+        <a class="nav-link" href="#login" data-login-link id="link-login">Iniciar sesión</a>
         <span class="nav-ink" aria-hidden="true"></span>
       </nav>
 
@@ -145,12 +161,12 @@
     <!-- MENÚ MOBILE -->
     <nav id="mobileMenu" class="mobile-menu" hidden>
       <ul>
-        <li><a href="#deposito-retiro">DEPOSITO</a></li>
-        <li><a href="promos.html">PROMOS VIP</a></li><!-- ← va a promos.html -->
-        <li><a href="#contacto-soporte">CONTACTANOS</a></li>
+        <li><a href="#deposito-retiro">Depósito/Retiro</a></li>
+        <li><a href="promos.html">Promociones</a></li><!-- ← ahora abre promos.html -->
+        <li><a href="#contacto-soporte">Contacto soporte</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a href="#registro" data-register-link>REGISTRATE</a></li>
-        <li><a href="#login">INICIAR SESIÓN</a></li>
+        <li><a href="#registro" data-register-link>Registro</a></li><!-- geolocalizado -->
+        <li><a href="#login" data-login-link>Iniciar sesión</a></li><!-- geolocalizado -->
       </ul>
     </nav>
   </header>
@@ -161,45 +177,32 @@
     <section id="hero">
       <div class="container">
         <div class="hero-row">
-          <!-- SLIDER (cada slide clickeable con acción) -->
+          <!-- SLIDER -->
           <div class="hero-slider" id="heroSlider" data-autoplay="5000">
-<div class="hs-track">
-  <!-- Slide 1 → WA PROMO JOKER -->
-  <figure class="hs-slide is-active">
-    <a class="hs-link"
-       href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20la%20PROMO%20JOKER%20%F0%9F%A4%A1%20%28tiros%20gratis%29"
-       target="_blank" rel="noopener">
-      <img src="media/promos/hero-promociones.webp" alt="Promo Joker" width="2200" height="820" loading="eager">
-    </a>
-  </figure>
-
-  <!-- Slide 2 → WA PROMO REFERIDOS -->
-  <figure class="hs-slide">
-    <a class="hs-link"
-       href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20la%20PROMO%20REFERIDOS%20%F0%9F%A4%9D%20%28bono%20%2410.000%29"
-       target="_blank" rel="noopener">
-      <img src="media/promos/hero-2.webp" alt="Promo Referidos" width="2200" height="820" loading="lazy">
-    </a>
-  </figure>
-
-  <!-- Slide 3 → Canal de WhatsApp -->
-  <figure class="hs-slide">
-    <a class="hs-link"
-       href="https://whatsapp.com/channel/0029Vb3o9ai77qVPdzOk0w3o"
-       target="_blank" rel="noopener">
-      <img src="media/promos/hero-3.webp" alt="Unite a nuestro canal de WhatsApp" width="2200" height="820" loading="lazy">
-    </a>
-  </figure>
-</div>
-
+            <div class="hs-track">
+              <!-- Slide 1: PROMO JOKER → WhatsApp -->
+              <figure class="hs-slide is-active">
+                <img src="media/promos/hero-promociones.webp" alt="Promociones actuales" width="2200" height="820" loading="eager">
+                <a class="hs-link" href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20JOKER" target="_blank" rel="noopener" aria-label="Activar Promo Joker"></a>
+              </figure>
+              <!-- Slide 2: PROMO REFERIDOS → WhatsApp -->
+              <figure class="hs-slide">
+                <img src="media/promos/hero-2.webp" alt="Slots destacados" width="2200" height="820" loading="lazy">
+                <a class="hs-link" href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20REFERIDOS" target="_blank" rel="noopener" aria-label="Activar Promo Referidos"></a>
+              </figure>
+              <!-- Slide 3: UNITE AL CANAL → Canal WhatsApp -->
+              <figure class="hs-slide">
+                <img src="media/promos/hero-3.webp" alt="Apuestas deportivas" width="2200" height="820" loading="lazy">
+                <a class="hs-link" href="https://whatsapp.com/channel/0029Vb3o9ai77qVPdzOk0w3o" target="_blank" rel="noopener" aria-label="Unite al canal de WhatsApp"></a>
+              </figure>
+            </div>
             <div class="hs-dots" aria-label="Controles del slider"></div>
           </div>
 
-          <!-- Cuadrado de promoción → promos.html#referidos -->
+          <!-- Cuadrado de promoción (reemplaza los botones) → WhatsApp REFERIDOS -->
           <figure class="hero-square">
-            <a href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20la%20PROMO%20REFERIDOS%20%F0%9F%A4%9D%20%28bono%20%2410.000%29" title="Ver promo Referidos">
-              <img src="media/promos/promo-square.webp" alt="Promo destacada - Referidos" width="900" height="900" loading="lazy">
-            </a>
+            <img src="media/promos/promo-square.webp" alt="Promo destacada" width="900" height="900" loading="lazy">
+            <a href="https://wa.me/5492617490475?text=QUIERO%20PROMO%20REFERIDOS" target="_blank" rel="noopener" aria-label="Quiero Promo Referidos"></a>
           </figure>
         </div>
 
@@ -217,29 +220,29 @@
             </a>
           </div>
         </section>
-                <!-- VIP: Promos & Sorteo (liviano, accesible y responsive) -->
-<section id="vip" class="vip-section container" aria-label="Promos y Sorteos VIP">
-  <a href="promos.html" class="vip-card" aria-label="Ir a Promos VIP">
-    <div class="vip-badge" aria-hidden="true">PROMO VIP</div>
-    <h3 class="vip-title">Promos exclusivas</h3>
-    <p class="vip-text">Bonos, giros y beneficios especiales para tu cuenta.</p>
-    <span class="vip-cta">Ver promos</span>
-  </a>
 
-  <a href="sorteo.html" class="vip-card" aria-label="Ir a Sorteo VIP">
-    <div class="vip-badge" aria-hidden="true">SORTEO VIP</div>
-    <h3 class="vip-title">Sorteo semanal</h3>
-    <p class="vip-text">Participá y seguí el calendario de premios.</p>
-    <span class="vip-cta">Ver sorteo</span>
-  </a>
-</section>
+        <!-- VIP: Promos & Sorteo (liviano, accesible y responsive) -->
+        <section id="vip" class="vip-section container" aria-label="Promos y Sorteos VIP">
+          <a href="promos.html" class="vip-card" aria-label="Ir a Promos VIP">
+            <div class="vip-badge" aria-hidden="true">PROMO VIP</div>
+            <h3 class="vip-title">Promos exclusivas</h3>
+            <p class="vip-text">Bonos, giros y beneficios especiales para tu cuenta.</p>
+            <span class="vip-cta">Ver promos</span>
+          </a>
 
+          <a href="sorteo.html" class="vip-card" aria-label="Ir a Sorteo VIP">
+            <div class="vip-badge" aria-hidden="true">SORTEO VIP</div>
+            <h3 class="vip-title">Sorteo semanal</h3>
+            <p class="vip-text">Participá y seguí el calendario de premios.</p>
+            <span class="vip-cta">Ver sorteo</span>
+          </a>
+        </section>
 
         <!-- CTAs reubicados abajo de los banners -->
         <section class="cta-below" aria-label="Acciones rápidas">
           <div class="cta-row">
             <a class="btn primary" href="#registro" data-register-link>Registrate</a>
-            <a class="btn whatsapp" href="https://wa.me/5492617490475" target="_blank" rel="noopener">
+            <a class="btn whatsapp" href="https://wa.me/2617490475" target="_blank" rel="noopener">
               <svg class="wpi" aria-hidden="true" viewBox="0 0 24 24">
                 <path d="M12.04 2a9.9 9.9 0 0 0-8.47 14.9L2 22l5.22-1.53A9.94 9.94 0 1 0 12.04 2Zm5.75 14.25c-.24.67-1.18 1.08-1.94 1.22-.52.1-1.2.18-3.5-.73-2.94-1.22-4.83-4.23-4.98-4.42-.14-.18-1.2-1.6-1.2-3.05s.73-2.16 1-2.47c.24-.3.64-.44 1.04-.44h.74c.24 0 .56.08.86.64.28.56.96 1.95 1.04 2.1.08.14.12.32.02.5-.1.2-.16.32-.32.5-.16.16-.32.36-.46.48-.16.16-.34.32-.16.62.18.3.8 1.3 1.72 2.1 1.18 1.06 2.18 1.38 2.5 1.54.32.16.5.14.68-.08.22-.26.78-.9.98-1.22.2-.3.42-.26.7-.16.28.1 1.78.84 2.09.98.32.16.52.24.6.38.06.14.06.78-.18 1.44Z"/>
               </svg>
@@ -248,36 +251,35 @@
           </div>
         </section>
 
-
         <!-- Scroller de pagos -->
-    <div class="payments-scroller">
-      <div class="payments-runner">
-        <ul class="payments-track">
-          <li><img class="paylogo" src="assets/payments/uala.png" alt="Ualá"></li>
-          <li><img class="paylogo" src="assets/payments/trilenium.png" alt="Trilenium"></li>
-          <li><img class="paylogo" src="assets/payments/transferencia.png" alt="Transferencia Bancaria"></li>
-          <li><img class="paylogo" src="assets/payments/totalcoin.png" alt="TotalCoin"></li>
-          <li><img class="paylogo" src="assets/payments/modo.png" alt="Modo"></li>
-          <li><img class="paylogo" src="assets/payments/personalpay.png" alt="Personal Pay"></li>
-          <li><img class="paylogo" src="assets/payments/naranjax.png" alt="Naranja X"></li>
-          <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt="Mercado Pago"></li>
-          <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt="Claro Pay"></li>
-          <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt="Cabal"></li>
-        </ul>
-        <ul class="payments-track" aria-hidden="true">
-          <li><img class="paylogo" src="assets/payments/uala.png" alt=""></li>
-          <li><img class="paylogo" src="assets/payments/trilenium.png" alt=""></li>
-          <li><img class="paylogo" src="assets/payments/transferencia.png" alt=""></li>
-          <li><img class="paylogo" src="assets/payments/totalcoin.png" alt=""></li>
-          <li><img class="paylogo" src="assets/payments/modo.png" alt=""></li>
-          <li><img class="paylogo" src="assets/payments/personalpay.png" alt=""></li>
-          <li><img class="paylogo" src="assets/payments/naranjax.png" alt=""></li>
-          <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt=""></li>
-          <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt=""></li>
-          <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt=""></li>
-        </ul>
-      </div>
-    </div>
+        <div class="payments-scroller">
+          <div class="payments-runner">
+            <ul class="payments-track">
+              <li><img class="paylogo" src="assets/payments/uala.png" alt="Ualá"></li>
+              <li><img class="paylogo" src="assets/payments/trilenium.png" alt="Trilenium"></li>
+              <li><img class="paylogo" src="assets/payments/transferencia.png" alt="Transferencia Bancaria"></li>
+              <li><img class="paylogo" src="assets/payments/totalcoin.png" alt="TotalCoin"></li>
+              <li><img class="paylogo" src="assets/payments/modo.png" alt="Modo"></li>
+              <li><img class="paylogo" src="assets/payments/personalpay.png" alt="Personal Pay"></li>
+              <li><img class="paylogo" src="assets/payments/naranjax.png" alt="Naranja X"></li>
+              <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt="Mercado Pago"></li>
+              <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt="Claro Pay"></li>
+              <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt="Cabal"></li>
+            </ul>
+            <ul class="payments-track" aria-hidden="true">
+              <li><img class="paylogo" src="assets/payments/uala.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/trilenium.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/transferencia.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/totalcoin.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/modo.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/personalpay.png" alt=""></li>
+              <li><img class="paylogo" src="assets/payments/naranjax.png" alt=""></li>
+              <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt=""></li>
+              <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt=""></li>
+              <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt=""></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -407,8 +409,7 @@
           <p class="bp-foot-text">Te ayudamos a resolver todo en 1 minuto.</p>
           <ul class="bp-contact">
             <li><a href="https://wa.me/5492617490475" class="bp-contact__item">💬 WhatsApp</a></li>
-            <li><a href="mailto:atencionbplayperg@gmail.com
-" class="bp-contact__item">✉️ atencionbplayperg@gmail.com</a></li>
+            <li><a href="mailto:atencionbplayperg@gmail.com" class="bp-contact__item">✉️ atencionbplayperg@gmail.com</a></li>
             <li><a href="tel:+5492617490475" class="bp-contact__item">📞 261 7490475</a></li>
           </ul>
         </section>
@@ -499,7 +500,7 @@
       };
       tick(); setInterval(tick, 1000);
 
-      /* ====== REGISTRO POR JURISDICCIÓN ====== */
+      /* ====== REGISTRO / LOGIN POR JURISDICCIÓN ====== */
       const REG = {
         "BUENOS AIRES": "https://pba.bplay.bet.ar/register?memberid=10163&sourceid=73",
         "CABA":          "https://caba.bplay.bet.ar/register?memberid=37&sourceid=14",
@@ -507,17 +508,30 @@
         "CORDOBA":       "https://cordoba.bplay.bet.ar/register?memberid=21&sourceid=6",
         "MENDOZA":       "https://mendoza.bplay.bet.ar/register?memberid=33&sourceid=6",
       };
-      const DEF = "https://www.bplay.bet.ar/registro";
-      const regLinks = document.querySelectorAll('[data-register-link]');
+      const LOGIN = {
+        "BUENOS AIRES": "https://pba.bplay.bet.ar/login",
+        "CABA":          "https://caba.bplay.bet.ar/login",
+        "SANTA FE":      "https://santafe.bplay.bet.ar/login",
+        "CORDOBA":       "https://cordoba.bplay.bet.ar/login",
+        "MENDOZA":       "https://mendoza.bplay.bet.ar/login",
+      };
+      const DEF_REG   = "https://www.bplay.bet.ar/registro";
+      const DEF_LOGIN = "https://www.bplay.bet.ar/login";
+
+      const regLinks   = () => document.querySelectorAll('[data-register-link]');
+      const loginLinks = () => document.querySelectorAll('[data-login-link]');
       const geoEl = document.getElementById('geo');
 
-      const setReg = (key) => {
-        const url = REG[key] || DEF;
-        regLinks.forEach(a => a.href = url);
-        const el = document.getElementById('link-registro');
-        if (el) el.title = `Registro → ${url} ${key?`(${key})`:"(default)"}`;
-        console.log('[REGISTRO]', {jurisdiccion: key || 'default', url});
-      };
+      function setJurisdictionLinks(key){
+        const rURL = REG[key]   || DEF_REG;
+        const lURL = LOGIN[key] || DEF_LOGIN;
+        regLinks().forEach(a => a.href = rURL);
+        loginLinks().forEach(a => a.href = lURL);
+        const elR = document.getElementById('link-registro');
+        if (elR) elR.title = `Registro → ${rURL} ${key?`(${key})`:"(default)"}`;
+        const elL = document.getElementById('link-login');
+        if (elL) elL.title = `Iniciar sesión → ${lURL} ${key?`(${key})`:"(default)"}`;
+      }
 
       const normalizeProvince = (raw="") => {
         let k = raw.toUpperCase()
@@ -532,13 +546,14 @@
         return null;
       };
 
+      // Heurística por host + default inicial
       const H = location.host.toUpperCase();
-      if (H.includes("CABA")) setReg("CABA");
-      else if (H.includes("SANTAFE")) setReg("SANTA FE");
-      else if (H.includes("CORDOBA")) setReg("CORDOBA");
-      else if (H.includes("MENDOZA")) setReg("MENDOZA");
-      else if (H.includes("PBA") || H.includes("BUENOSAIRES")) setReg("BUENOS AIRES");
-      else setReg(null);
+      if (H.includes("CABA")) setJurisdictionLinks("CABA");
+      else if (H.includes("SANTAFE")) setJurisdictionLinks("SANTA FE");
+      else if (H.includes("CORDOBA")) setJurisdictionLinks("CORDOBA");
+      else if (H.includes("MENDOZA")) setJurisdictionLinks("MENDOZA");
+      else if (H.includes("PBA") || H.includes("BUENOSAIRES")) setJurisdictionLinks("BUENOS AIRES");
+      else setJurisdictionLinks(null);
 
       async function reverseGeocode(lat, lon){
         try{
@@ -556,12 +571,10 @@
           const label = prov ? (city ? `${city}, ${prov}` : prov) : (city || "Argentina");
           if (geoEl) geoEl.textContent = label;
           const key = normalizeProvince(prov);
-          if (key){
-            setReg(key);
-            localStorage.setItem('bplay_provincia', key); // ← guardar para promos.html
-          }
+          setJurisdictionLinks(key);
         }catch(e){
           if (geoEl && !geoEl.textContent) geoEl.textContent = "Argentina";
+          setJurisdictionLinks(null);
         }
       }
       if (navigator.geolocation){
@@ -657,11 +670,8 @@
         });
       });
 
-      /* ====== SLIDER (fade + autoplay + swipe + acciones) ====== */
+      /* ====== SLIDER (fade + autoplay) ====== */
       const slider = document.getElementById('heroSlider');
-      const phoneWA="5492617490475";
-      function waLink(msg){ return `https://wa.me/${phoneWA}?text=${encodeURIComponent(msg)}`; }
-
       if (slider){
         const slides = Array.from(slider.querySelectorAll('.hs-slide'));
         const dotsWrap = slider.querySelector('.hs-dots');
@@ -695,18 +705,44 @@
         slider.addEventListener('pointerdown', e=>{sx=e.clientX; slider.setPointerCapture(e.pointerId);});
         slider.addEventListener('pointerup', e=>{dx=e.clientX-sx; if(Math.abs(dx)>40){ go(idx + (dx<0?1:-1), true);} sx=0; dx=0;});
         start();
-
-        // Click-to-action por slide
-        slides.forEach(sl=>{
-          sl.addEventListener('click',()=>{
-            const act=sl.dataset.action;
-            if(act==='wa'){ const msg=sl.dataset.wa||'Hola, quiero activar una promo'; window.open(waLink(msg),'_blank'); }
-            else if(act==='link'){ const url=sl.dataset.href; if(url) window.open(url,'_blank'); }
-          });
-        });
       }
     })();
   </script>
+
+  <!-- Tap confiable en mobile para abrir el link del slide activo -->
+  <script>
+  (function(){
+    const s = document.getElementById('heroSlider');
+    if (!s) return;
+    const slides = Array.from(s.querySelectorAll('.hs-slide'));
+
+    let downX = 0, moved = 0, pointerId = null;
+    s.addEventListener('pointerdown', e => {
+      pointerId = e.pointerId;
+      downX = e.clientX;
+      moved = 0;
+      s.setPointerCapture(pointerId);
+    }, {passive:true});
+    s.addEventListener('pointermove', e => {
+      if (!pointerId) return;
+      moved = Math.max(moved, Math.abs(e.clientX - downX));
+    }, {passive:true});
+    s.addEventListener('pointerup', e => {
+      if (pointerId) s.releasePointerCapture(pointerId);
+      pointerId = null;
+      if (moved < 12) { /* TAP */
+        const active = slides.find(el => el.classList.contains('is-active'));
+        const a = active && active.querySelector('a.hs-link[href]');
+        if (a){
+          // En iOS, disparar click programático funciona mejor:
+          a.click();
+        }
+      }
+    });
+  })();
+  </script>
+
+  <!-- FAB Contacto (si lo venías inyectando con otro script, podés omitir este bloque) -->
   <script>
 /* ============ FAB Contacto – inyección automática ============ */
 (function(){
@@ -716,37 +752,36 @@
     email:    { to: "atencionbplayperg@gmail.com", subject: "Consulta desde la web", body: "Hola equipo, tengo la siguiente consulta:" }
   };
 
+  if (document.querySelector('.fab-wrap')) return; // evita duplicados
+
   const el = document.createElement('div');
   el.innerHTML = `
     <div class="fab-wrap" aria-expanded="false" aria-label="Contacto rápido">
       <nav class="fab-panel" aria-hidden="true">
-        <a class="fab-item" href="${waLink(CONTACTO.whatsapp)}" target="_blank" rel="noopener">
-          <span class="fab-item__icon">${icoWhats()}</span>
+        <a class="fab-item" href="https://wa.me/${CONTACTO.whatsapp.phone}?text=${encodeURIComponent(CONTACTO.whatsapp.text)}" target="_blank" rel="noopener">
+          <span class="fab-item__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.47 14.9L2 22l5.22-1.53A9.94 9.94 0 1 0 12.04 2Zm5.75 14.25c-.24.67-1.18 1.08-1.94 1.22-.52.1-1.2.18-3.5-.73-2.94-1.22-4.83-4.23-4.98-4.42-.14-.18-1.2-1.6-1.2-3.05s.73-2.16 1-2.47c.24-.3.64-.44 1.04-.44h.74c.24 0 .56.08.86.64.28.56.96 1.95 1.04 2.1.08.14.12.32.02.5-.1.2-.16.32-.32.5-.16.16-.32.36-.46.48-.16.16-.34.32-.16.62.18.3.8 1.3 1.72 2.1 1.18 1.06 2.18 1.38 2.5 1.54.32.16.5.14.68-.08.22-.26.78-.9.98-1.22.2-.3.42-.26.7-.16.28.1 1.78.84 2.09.98.32.16.52.24.6.38.06.14.06.78-.18 1.44Z"/></svg></span>
           <div>
             <div class="fab-item__title">WhatsApp <span class="fab-badge">rápido</span></div>
             <div class="fab-item__desc">Respuesta prioritaria</div>
           </div>
         </a>
-
-        <a class="fab-item" href="${tgLink(CONTACTO.telegram)}" target="_blank" rel="noopener">
-          <span class="fab-item__icon">${icoTelegram()}</span>
+        <a class="fab-item" href="https://t.me/${CONTACTO.telegram.handle}" target="_blank" rel="noopener">
+          <span class="fab-item__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.06 15.47 8.88 19a1 1 0 0 0 1.62.78l2.4-1.94 4.35 3.2c.73.53 1.77.13 2-0.76l3.61-13.87c.25-.97-.73-1.79-1.65-1.4L2.2 10.01a1 1 0 0 0 .02 1.86l5.4 2.1 8.68-5.85-7.24 7.35Z"/></svg></span>
           <div>
             <div class="fab-item__title">Telegram</div>
             <div class="fab-item__desc">@${CONTACTO.telegram.handle}</div>
           </div>
         </a>
-
-        <a class="fab-item" href="${mailLink(CONTACTO.email)}">
-          <span class="fab-item__icon">${icoMail()}</span>
+        <a class="fab-item" href="mailto:${CONTACTO.email.to}?subject=${encodeURIComponent(CONTACTO.email.subject)}&body=${encodeURIComponent(CONTACTO.email.body)}">
+          <span class="fab-item__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg></span>
           <div>
             <div class="fab-item__title">Email</div>
             <div class="fab-item__desc">${CONTACTO.email.to}</div>
           </div>
         </a>
       </nav>
-
       <button class="fab-btn" type="button" aria-label="Abrir menú de contacto" aria-controls="fabPanel">
-        ${icoChat()}
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3c-4.97 0-9 3.58-9 8 0 1.92.73 3.68 1.97 5.06L4 21l4.18-1.56C9.21 19.81 10.58 20 12 20c4.97 0 9-3.58 9-8s-4.03-9-9-9Z" fill="currentColor"/></svg>
       </button>
     </div>
     <button class="fab-backdrop" aria-hidden="true" tabindex="-1"></button>
@@ -755,31 +790,18 @@
   const backdrop = el.querySelector('.fab-backdrop');
   document.body.appendChild(wrap);
   document.body.appendChild(backdrop);
-
   const btn = wrap.querySelector('.fab-btn');
   const panel = wrap.querySelector('.fab-panel');
   panel.id = "fabPanel";
-
   const open = ()=>{ wrap.setAttribute('aria-expanded','true'); panel.setAttribute('aria-hidden','false'); btn.setAttribute('aria-label','Cerrar menú de contacto'); };
   const close = ()=>{ wrap.setAttribute('aria-expanded','false'); panel.setAttribute('aria-hidden','true'); btn.setAttribute('aria-label','Abrir menú de contacto'); };
   const toggle = ()=> wrap.getAttribute('aria-expanded') === 'true' ? close() : open();
-
   btn.addEventListener('click', toggle);
   backdrop.addEventListener('click', close);
   document.addEventListener('keydown', e=>{ if(e.key === 'Escape') close(); });
-
   document.addEventListener('click', e=>{ if (!wrap.contains(e.target)) close(); }, {capture:true});
-
-  function waLink({phone, text}){ return `https://wa.me/${phone}?text=${encodeURIComponent(text||"")}`; }
-  function tgLink({handle}){ return `https://t.me/${handle.replace(/^@/,'')}`; }
-  function mailLink({to, subject, body}){ return `mailto:${to}?subject=${encodeURIComponent(subject||"")}&body=${encodeURIComponent(body||"")}`; }
-
-  function icoChat(){ return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3c-4.97 0-9 3.58-9 8 0 1.92.73 3.68 1.97 5.06L4 21l4.18-1.56C9.21 19.81 10.58 20 12 20c4.97 0 9-3.58 9-8s-4.03-9-9-9Z" fill="currentColor" /></svg>`; }
-  function icoWhats(){ return `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.47 14.9L2 22l5.22-1.53A9.94 9.94 0 1 0 12.04 2Zm5.75 14.25c-.24.67-1.18 1.08-1.94 1.22-.52.1-1.2.18-3.5-.73-2.94-1.22-4.83-4.23-4.98-4.42-.14-.18-1.2-1.6-1.2-3.05s.73-2.16 1-2.47c.24-.3.64-.44 1.04-.44h.74c.24 0 .56.08.86.64.28.56.96 1.95 1.04 2.1.08.14.12.32.02.5-.1.2-.16.32-.32.5-.16.16-.32.36-.46.48-.16.16-.34.32-.16.62.18.3.8 1.3 1.72 2.1 1.18 1.06 2.18 1.38 2.5 1.54.32.16.5.14.68-.08.22-.26.78-.9.98-1.22.2-.3.42-.26.7-.16.28.1 1.78.84 2.09.98.32.16.52.24.6.38.06.14.06.78-.18 1.44Z"/></svg>`; }
-  function icoTelegram(){ return `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.06 15.47 8.88 19a1 1 0 0 0 1.62.78l2.4-1.94 4.35 3.2c.73 .53 1.77 .13 2 -0.76l3.61-13.87c.25-.97-.73-1.79-1.65-1.4L2.2 10.01a1 1 0 0 0 .02 1.86l5.4 2.1 8.68-5.85-7.24 7.35Z"/></svg>`; }
-  function icoMail(){ return `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>`; }
 })();
-</script>
+  </script>
 
 </body>
 </html>
