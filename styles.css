@@ -2093,4 +2093,8 @@ html{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 @media (max-width:900px){
   .vip-head-btn{ display:none; } /* si querés, lo ocultamos en mobile para no saturar */
 }
+.vip-head-btn{
+  justify-self: start;   /* en vez de center */
+  margin-left: 8px;      /* opcional, ajuste fino */
+}
 
