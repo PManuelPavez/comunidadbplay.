@@ -802,6 +802,163 @@
   document.addEventListener('click', e=>{ if (!wrap.contains(e.target)) close(); }, {capture:true});
 })();
   </script>
+<script>
+/* ================== Registro/Login por jurisdicción (mobile-safe) ================== */
+(function(){
+  const REG = {
+    "BUENOS AIRES": "https://pba.bplay.bet.ar/register?memberid=10163&sourceid=73",
+    "CABA":          "https://caba.bplay.bet.ar/register?memberid=37&sourceid=14",
+    "SANTA FE":      "https://santafe.bplay.bet.ar/register?memberid=10154&sourceid=12",
+    "CORDOBA":       "https://cordoba.bplay.bet.ar/register?memberid=21&sourceid=6",
+    "MENDOZA":       "https://mendoza.bplay.bet.ar/register?memberid=33&sourceid=6"
+  };
+  const LOGIN = {
+    "BUENOS AIRES": "https://pba.bplay.bet.ar/login",
+    "CABA":          "https://caba.bplay.bet.ar/login",
+    "SANTA FE":      "https://santafe.bplay.bet.ar/login",
+    "CORDOBA":       "https://cordoba.bplay.bet.ar/login",
+    "MENDOZA":       "https://mendoza.bplay.bet.ar/login"
+  };
+  const DEF_REG   = "https://www.bplay.bet.ar/registro";
+  const DEF_LOGIN = "https://www.bplay.bet.ar/login";
+
+  const KEY_PROV = "bp.province";
+  const KEY_TS   = "bp.province.ts";
+  const TTL_MS   = 12 * 60 * 60 * 1000; // 12h
+
+  const $all = (sel) => Array.from(document.querySelectorAll(sel));
+
+  function setAuthLinks(prov){
+    const reg = REG[prov]   || DEF_REG;
+    const log = LOGIN[prov] || DEF_LOGIN;
+    $all('[data-register-link]').forEach(a => a.href = reg);
+    $all('[data-login-link]').forEach(a => a.href = log);
+    // opcional: tooltip/debug
+    const lr = document.getElementById('link-registro');
+    if (lr) lr.title = `Registro → ${reg}${prov?` (${prov})`:''}`;
+    const ll = document.getElementById('link-login');
+    if (ll) ll.title = `Login → ${log}${prov?` (${prov})`:''}`;
+  }
+
+  function normalizeProvince(raw=""){
+    let k = String(raw).toUpperCase()
+      .replaceAll("Á","A").replaceAll("É","E").replaceAll("Í","I").replaceAll("Ó","O").replaceAll("Ú","U");
+    if (k.includes("AUTONOMA") && k.includes("BUENOS AIRES")) return "CABA";
+    if (k.includes("CIUDAD AUTONOMA")) return "CABA";
+    if (k.includes("CABA")) return "CABA";
+    if (k.includes("BUENOS AIRES")) return "BUENOS AIRES";
+    if (k.includes("SANTA FE")) return "SANTA FE";
+    if (k.includes("CORDOBA")) return "CORDOBA";
+    if (k.includes("MENDOZA")) return "MENDOZA";
+    return null;
+  }
+
+  // Fallback por dominio (p.ej. pba., caba., etc.)
+  function provinceFromHost(){
+    const H = location.host.toUpperCase();
+    if (H.includes("CABA")) return "CABA";
+    if (H.includes("SANTAFE")) return "SANTA FE";
+    if (H.includes("CORDOBA")) return "CORDOBA";
+    if (H.includes("MENDOZA")) return "MENDOZA";
+    if (H.includes("PBA") || H.includes("BUENOSAIRES")) return "BUENOS AIRES";
+    return null;
+  }
+
+  async function reverseGeocode(lat, lon){
+    const u = new URL("https://nominatim.openstreetmap.org/reverse");
+    u.searchParams.set("format","jsonv2");
+    u.searchParams.set("lat",lat); u.searchParams.set("lon",lon);
+    u.searchParams.set("zoom","10");
+    u.searchParams.set("accept-language","es");
+    const r = await fetch(u, {headers:{ "User-Agent":"bplay-helper/1.0", "Referer": location.origin }});
+    if (!r.ok) throw new Error("reverse geocode fail");
+    const d = await r.json();
+    return normalizeProvince(d.address?.state || d.address?.region || d.address?.province || "");
+  }
+
+  async function detectProvince(){
+    // 1) Cache
+    const ts   = +(localStorage.getItem(KEY_TS) || 0);
+    const cached = localStorage.getItem(KEY_PROV);
+    if (cached && (Date.now() - ts) < TTL_MS){
+      setAuthLinks(cached);
+      return cached;
+    }
+
+    // 2) Geolocalización (solo en HTTPS)
+    if (location.protocol === "https:" && navigator.geolocation){
+      try {
+        const pos = await new Promise((res, rej)=>{
+          navigator.geolocation.getCurrentPosition(res, rej, { timeout: 3000, maximumAge: 600000 });
+        });
+        const prov = await reverseGeocode(pos.coords.latitude, pos.coords.longitude);
+        if (prov){
+          localStorage.setItem(KEY_PROV, prov);
+          localStorage.setItem(KEY_TS, String(Date.now()));
+          setAuthLinks(prov);
+          return prov;
+        }
+      } catch(e) { /* cae a fallback */ }
+    }
+
+    // 3) Fallback por host
+    const prov = provinceFromHost();
+    setAuthLinks(prov);
+    if (prov){
+      localStorage.setItem(KEY_PROV, prov);
+      localStorage.setItem(KEY_TS, String(Date.now()));
+    }
+    return prov;
+  }
+
+  // Asignar algo YA (host o cache), y luego refinar
+  (function bootstrap(){
+    const prov = (()=>{
+      const ts=+(localStorage.getItem(KEY_TS)||0);
+      const c = localStorage.getItem(KEY_PROV);
+      if (c && (Date.now()-ts)<TTL_MS) return c;
+      return provinceFromHost();
+    })();
+    setAuthLinks(prov);
+    detectProvince(); // actualiza cuando termine
+  })();
+
+  // Garantía de redirección correcta si el usuario toca antes de detectar
+  async function guardClick(e){
+    const a = e.target.closest('[data-register-link],[data-login-link]');
+    if (!a) return;
+
+    // ¿ya es un URL final? si contiene alguna de las bases conocidas, dejar pasar
+    const finalTargets = new Set([
+      ...Object.values(REG),
+      ...Object.values(LOGIN),
+      DEF_REG, DEF_LOGIN
+    ]);
+    const href = a.href || a.getAttribute('href') || "";
+    if ([...finalTargets].some(u => href && href.startsWith(u))) return;
+
+    // Si aún no hay link final, resolvemos y redirigimos
+    e.preventDefault();
+    const prov = await detectProvince();
+    const target = a.matches('[data-register-link]')
+      ? (REG[prov] || DEF_REG)
+      : (LOGIN[prov] || DEF_LOGIN);
+    window.location.href = target;
+  }
+  document.addEventListener('click', guardClick, { capture:true });
+
+  // Por si el menú móvil se inyecta tarde: re-asignar al abrir el menú
+  document.addEventListener('click', (e)=>{
+    if (e.target.closest('.nav-toggle')) {
+      // pequeña espera para que el DOM del menú esté en el árbol
+      setTimeout(()=> {
+        const prov = localStorage.getItem(KEY_PROV);
+        setAuthLinks(prov);
+      }, 0);
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
