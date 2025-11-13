@@ -464,3 +464,144 @@ function enableSwipe(el, onLeft, onRight){
   }, {passive:true});
 }
 
+<script>
+/* ==== Registro/Login por jurisdicción – robusto para mobile y menús dinámicos ==== */
+(function(){
+  const REG = {
+    "BUENOS AIRES":"https://pba.bplay.bet.ar/register?memberid=10163&sourceid=73",
+    "CABA":"https://caba.bplay.bet.ar/register?memberid=37&sourceid=14",
+    "SANTA FE":"https://santafe.bplay.bet.ar/register?memberid=10154&sourceid=12",
+    "CORDOBA":"https://cordoba.bplay.bet.ar/register?memberid=21&sourceid=6",
+    "MENDOZA":"https://mendoza.bplay.bet.ar/register?memberid=33&sourceid=6"
+  };
+  const LOGIN = {
+    "BUENOS AIRES":"https://pba.bplay.bet.ar/login",
+    "CABA":"https://caba.bplay.bet.ar/login",
+    "SANTA FE":"https://santafe.bplay.bet.ar/login",
+    "CORDOBA":"https://cordoba.bplay.bet.ar/login",
+    "MENDOZA":"https://mendoza.bplay.bet.ar/login"
+  };
+  const DEF_REG   = "https://www.bplay.bet.ar/registro";
+  const DEF_LOGIN = "https://www.bplay.bet.ar/login";
+
+  const KEY_PROV="bp.province", KEY_TS="bp.province.ts", TTL=12*60*60*1000;
+
+  const $all = sel => Array.from(document.querySelectorAll(sel));
+
+  const normalize = (s="")=>{
+    const k = String(s).toUpperCase()
+      .replace(/Á/g,"A").replace(/É/g,"E").replace(/Í/g,"I").replace(/Ó/g,"O").replace(/Ú/g,"U").trim();
+    if (k.includes("AUTONOMA") && k.includes("BUENOS AIRES")) return "CABA";
+    if (k.includes("CIUDAD AUTONOMA")) return "CABA";
+    if (k.includes("CABA")) return "CABA";
+    if (k.includes("BUENOS AIRES")) return "BUENOS AIRES";
+    if (k.includes("SANTA FE")) return "SANTA FE";
+    if (k.includes("CORDOBA")) return "CORDOBA";
+    if (k.includes("MENDOZA")) return "MENDOZA";
+    return null;
+  };
+
+  const fromHost = ()=>{
+    const H = location.host.toUpperCase();
+    if (H.includes("CABA")) return "CABA";
+    if (H.includes("SANTAFE")) return "SANTA FE";
+    if (H.includes("CORDOBA")) return "CORDOBA";
+    if (H.includes("MENDOZA")) return "MENDOZA";
+    if (H.includes("PBA") || H.includes("BUENOSAIRES")) return "BUENOS AIRES";
+    return null;
+  };
+
+  const fromHeaderGeo = ()=>{
+    const t = document.getElementById('geo')?.textContent || "";
+    // ejemplo: "Pergamino, Buenos Aires" -> "BUENOS AIRES"
+    const seg = t.split(",").pop();
+    return normalize(seg);
+  };
+
+  async function reverseGeocode(lat,lon){
+    const u=new URL("https://nominatim.openstreetmap.org/reverse");
+    u.searchParams.set("format","jsonv2");
+    u.searchParams.set("lat",lat); u.searchParams.set("lon",lon);
+    u.searchParams.set("zoom","10"); u.searchParams.set("accept-language","es");
+    const r=await fetch(u,{headers:{ "User-Agent":"bplay-helper/1.0", "Referer": location.origin }});
+    if(!r.ok) throw 0;
+    const d=await r.json();
+    return normalize(d.address?.state || d.address?.region || d.address?.province || "");
+  }
+
+  function paintLinks(prov){
+    const reg = REG[prov]   || DEF_REG;
+    const log = LOGIN[prov] || DEF_LOGIN;
+    $all('[data-register-link]').forEach(a=>{ if(a) a.href = reg; });
+    $all('[data-login-link]').forEach(a=>{ if(a) a.href = log;  });
+  }
+
+  function cacheProv(prov){
+    if(!prov) return;
+    localStorage.setItem(KEY_PROV, prov);
+    localStorage.setItem(KEY_TS,  Date.now().toString());
+  }
+
+  async function detectProv(){
+    // 0) window.bpProvince (por si otro módulo ya lo resolvió)
+    if (window.bpProvince) { cacheProv(window.bpProvince); return window.bpProvince; }
+
+    // 1) cache
+    const ts=+(localStorage.getItem(KEY_TS)||0);
+    const c = localStorage.getItem(KEY_PROV);
+    if (c && (Date.now()-ts)<TTL) return c;
+
+    // 2) header #geo inmediato
+    const fromGeo = fromHeaderGeo();
+    if (fromGeo){ cacheProv(fromGeo); return fromGeo; }
+
+    // 3) host
+    const host = fromHost();
+    if (host){ cacheProv(host); return host; }
+
+    // 4) geoloc (solo https)
+    if (location.protocol==="https:" && navigator.geolocation){
+      try{
+        const pos = await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:3000,maximumAge:600000}));
+        const prov = await reverseGeocode(pos.coords.latitude, pos.coords.longitude);
+        if (prov){ cacheProv(prov); return prov; }
+      }catch(e){}
+    }
+    return null;
+  }
+
+  // Pinta algo ya, y vuelve a pintar al refinar
+  (async function init(){
+    // primera aproximación
+    const seed = localStorage.getItem(KEY_PROV) || fromHeaderGeo() || fromHost();
+    paintLinks(seed);
+    // resolución final
+    const prov = await detectProv();
+    paintLinks(prov);
+  })();
+
+  // Si el usuario toca antes: garantizamos redirección correcta
+  document.addEventListener('click', async (e)=>{
+    const a = e.target.closest?.('[data-register-link],[data-login-link]');
+    if(!a) return;
+
+    // si ya apunta a un destino final conocido, no tocar
+    const href=a.getAttribute('href')||"";
+    const finals = new Set([...Object.values(REG), ...Object.values(LOGIN), DEF_REG, DEF_LOGIN]);
+    if ([...finals].some(u => href.startsWith(u))) return;
+
+    e.preventDefault();
+    const prov = await detectProv();
+    const url = a.matches('[data-register-link]') ? (REG[prov]||DEF_REG) : (LOGIN[prov]||DEF_LOGIN);
+    a.href = url; // pinta para próximas veces
+    location.href = url; // redirige ya
+  }, {capture:true});
+
+  // Menú hamburguesa / DOM dinámico: observa y repinta
+  const mo = new MutationObserver(()=> {
+    const prov = localStorage.getItem(KEY_PROV) || fromHeaderGeo() || fromHost();
+    paintLinks(prov);
+  });
+  mo.observe(document.documentElement, {subtree:true, childList:true});
+})();
+</script>
