@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ayuda y Soporte | Bplay</title>
+  <meta name="description" content="Guías rápidas de Depósitos, Retiros, Promociones, Validación de identidad y más. Todo en un solo lugar." />
+  <link rel="canonical" href="https://www.bplay.bet.ar/ayuda">
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+
+  <!-- Tus estilos principales -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Ajustes puntuales: HEADER + CTAs -->
+  <style>
+    /* ===== HEADER: logo + botones CBU / PROMOS en desktop y mobile ===== */
+    .site-header .nav{
+      display:grid;
+      grid-template-columns:auto auto 1fr auto auto; /* logo | quick | nav-left | nav-right | info+burger */
+      align-items:center;
+      gap:16px;
+    }
+
+    .site-header .brand{
+      order:0;
+      justify-self:start;
+    }
+    .brand-logo{
+      transform:scale(1.1);
+      transform-origin:left center;
+      display:block;
+    }
+
+    .header-quick{
+      order:1;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .nav-left{ order:2; }
+    .nav-right{ order:3; }
+    .header-info{
+      order:4;
+      text-align:right;
+    }
+    .nav-toggle{
+      order:5;
+      justify-self:end;
+      background:none;
+      border:0;
+      cursor:pointer;
+      padding:6px;
+      display:inline-flex;
+      flex-direction:column;
+      gap:4px;
+      align-items:center;
+      justify-content:center;
+    }
+    .nav-toggle__bar{
+      width:20px;
+      height:2px;
+      border-radius:999px;
+      background:#f5f7fb;
+      transition:
+        transform .2s ease,
+        opacity .2s ease,
+        background .2s ease;
+    }
+
+    /* Animación hamburguesa → cruz cuando el menú está abierto */
+    body.menu-open .nav-toggle__bar:nth-child(1){
+      transform:translateY(6px) rotate(45deg);
+    }
+    body.menu-open .nav-toggle__bar:nth-child(2){
+      opacity:0;
+      transform:scaleX(0);
+    }
+    body.menu-open .nav-toggle__bar:nth-child(3){
+      transform:translateY(-6px) rotate(-45deg);
+    }
+
+    .vip-head-btn,
+    .promos-head-btn{
+      padding:6px 12px;
+      border-radius:999px;
+      font-weight:800;
+      letter-spacing:.04em;
+      font-size:.78rem;
+      text-decoration:none;
+      white-space:nowrap;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 0 14px rgba(0,0,0,.6);
+    }
+    .vip-head-btn{
+      color:#2b2100;
+      background:linear-gradient(180deg,#ffe784,#ffd94a);
+    }
+    .promos-head-btn{
+      color:#e9fdf6;
+      background:linear-gradient(180deg,#1be487,#0ea965);
+    }
+    .vip-head-btn:hover,
+    .promos-head-btn:hover{
+      filter:brightness(1.04);
+    }
+
+    @media (max-width:900px){
+      .site-header .nav{
+        grid-template-columns:auto 1fr auto;
+        grid-template-areas:"brand quick burger";
+      }
+      .site-header .brand{
+        grid-area:brand;
+      }
+      .header-quick{
+        grid-area:quick;
+        justify-self:center;
+      }
+      .nav-toggle{
+        grid-area:burger;
+        justify-self:end;
+      }
+      .nav-left,
+      .nav-right,
+      .header-info{
+        display:none;
+      }
+      .vip-head-btn,
+      .promos-head-btn{
+        font-size:.72rem;
+        padding:4px 8px;
+      }
+    }
+
+    /* ===== CTAs reubicados bajo los banners ===== */
+    .cta-below{margin-top:2px}
+    .cta-below .cta-row{
+      display:grid;grid-template-columns:repeat(2,minmax(200px,1fr));gap:16px;align-items:center
+    }
+    @media (max-width:560px){.cta-below .cta-row{grid-template-columns:1fr}}
+    .btn{display:inline-grid;place-items:center;padding:.95rem 1rem;border-radius:12px;text-decoration:none;font-weight:700}
+    .btn.primary{background:#18d26e;color:#00150c}
+    .btn.whatsapp{border:1px solid rgba(255,255,255,.18);background:transparent;color:#e7fff4}
+    .btn.whatsapp .wpi{width:1.2rem;height:1.2rem;margin-right:.5rem}
+  </style>
+
+  <!-- Fondo neon + sección hero unificada + animaciones scroll -->
+  <style>
+    body.neon-bg {
+      background: #000;
+      color: #e7edf5;
+      font-family: 'Manrope', sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body.neon-bg::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: -20%;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle at center, rgba(25,195,125,0.08), transparent 70%);
+      animation: pulse 8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    /* MICROCOPY arriba del hero */
+    .hero-intro{
+      margin:18px 0 4px;
+    }
+    .hero-intro .container{
+      max-width:960px;
+      margin-inline:auto;
+      padding:0 16px;
+    }
+    .hero-microcopy{
+      text-align:center;
+      font-size:.9rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:rgba(231,237,245,.78);
+    }
+    .hero-microcopy strong{
+      color:#1be487;
+      font-weight:800;
+    }
+
+    /* BLOQUE HERO ALL-IN-ONE */
+    .section-block{
+      padding: 18px 14px;
+      margin: 10px 0 10px;
+      border-radius: 16px;
+      background:
+        radial-gradient(120% 160% at 50% 0%, rgba(25,195,125,.18), transparent 60%),
+        #05070b;
+      box-shadow:
+        0 18px 40px rgba(0,0,0,.85),
+        0 0 0 1px rgba(255,255,255,.04);
+    }
+
+    .section-block .promo-banner{
+      display:block;
+      border-radius:12px;
+      overflow:hidden;
+      background:#05070b;
+      box-shadow:0 12px 26px rgba(0,0,0,.7);
+      transform:translateZ(0);
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        filter .18s ease;
+    }
+    .section-block .promo-banner + .promo-banner{
+      margin-top:12px;
+    }
+    .section-block .promo-banner img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .section-block .promo-banner:hover{
+      transform:translateY(-2px) scale(1.01);
+      box-shadow:0 20px 46px rgba(0,0,0,.95);
+      filter:brightness(1.05);
+    }
+    /* Estado "pressed" táctil en mobile */
+    .section-block .promo-banner:active{
+      transform:translateY(1px) scale(.995);
+      box-shadow:0 8px 18px rgba(0,0,0,.9);
+      filter:brightness(.92);
+    }
+
+    @media (max-width:480px){
+      .section-block{
+        padding:14px 10px;
+        margin:10px 0 8px;
+      }
+      .section-block .promo-banner + .promo-banner{
+        margin-top:10px;
+      }
+    }
+
+    /* BLOQUE: ¿Qué hago primero? */
+    .first-steps{
+      margin:4px 0 18px;
+    }
+    .first-steps .container{
+      max-width:960px;
+      margin-inline:auto;
+      padding:0 16px;
+    }
+    .first-steps-card{
+      border-radius:14px;
+      padding:14px 16px;
+      background:
+        radial-gradient(100% 140% at 0% 0%, rgba(27,228,135,.18), transparent 55%),
+        #05070b;
+      box-shadow:0 16px 34px rgba(0,0,0,.9);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .first-steps-title{
+      margin:0 0 8px;
+      font-size:1rem;
+      font-weight:700;
+      color:#f4f7ff;
+    }
+    .first-steps-list{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:.9rem;
+    }
+    .first-steps-item{
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+    }
+    .first-steps-item .step-icon{
+      font-size:1.05rem;
+      line-height:1.4;
+    }
+    .first-steps-item .step-text{
+      opacity:.9;
+    }
+
+    @media (max-width:480px){
+      .first-steps-card{
+        padding:12px 12px;
+      }
+      .first-steps-title{
+        font-size:.95rem;
+      }
+      .first-steps-list{
+        font-size:.86rem;
+      }
+    }
+
+    /* ANIMACIONES DE SCROLL (reveal) */
+    .reveal{
+      opacity:0;
+      transform:translateY(18px);
+      transition:
+        opacity .4s ease-out,
+        transform .4s ease-out;
+    }
+    .reveal.is-visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    /* ===== MEJORA 1: MENÚ HAMBURGUESA (panel mobile) ===== */
+
+    /* Bloquea el scroll cuando el menú está abierto */
+    body.menu-open{
+      overflow:hidden;
+    }
+
+    /* Panel mobile que se despliega bajo el header */
+    .mobile-menu{
+      position:fixed;
+      left:0;
+      right:0;
+      top:64px; /* aprox altura del header */
+      background:rgba(5,7,11,.97);
+      backdrop-filter:blur(10px);
+      box-shadow:0 18px 40px rgba(0,0,0,.9);
+      padding:12px 16px 24px;
+      transform:translateY(-8px);
+      opacity:0;
+      visibility:hidden;
+      transition:
+        transform .2s ease-out,
+        opacity .2s ease-out,
+        visibility .2s linear;
+      z-index:900;
+    }
+
+    body.menu-open #mobileMenu{
+      transform:translateY(0);
+      opacity:1;
+      visibility:visible;
+    }
+
+    .mobile-menu ul{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .mobile-menu a{
+      display:block;
+      padding:10px 8px;
+      border-radius:8px;
+      text-decoration:none;
+      font-size:.95rem;
+      color:#e7edf5;
+      background:rgba(14,20,30,.85);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .mobile-menu a.menu-cbu{
+      background:linear-gradient(180deg,#ffe784,#ffd94a);
+      color:#1a1500;
+      font-weight:800;
+    }
+
+    @media (min-width:901px){
+      .mobile-menu{
+        display:none !important;
+      }
+    }
+    /* ===== ANIMACIÓN BOTÓN HAMBURGUESA ===== */
+.nav-toggle{
+  width: 34px;
+  height: 28px;
+  display:inline-flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  background:transparent;
+  border:0;
+  padding:0;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-toggle__bar{
+  width:22px;
+  height:2px;
+  border-radius:999px;
+  background:#f5f7ff;
+  transition:
+    transform .22s ease,
+    opacity .18s ease,
+    width .18s ease,
+    background .18s ease;
+}
+
+/* Estado abierto: transformamos en X */
+body.menu-open .nav-toggle__bar:nth-child(1){
+  transform:translateY(7px) rotate(45deg);
+}
+body.menu-open .nav-toggle__bar:nth-child(2){
+  opacity:0;
+  transform:scaleX(.4);
+}
+body.menu-open .nav-toggle__bar:nth-child(3){
+  transform:translateY(-7px) rotate(-45deg);
+}
+/* ===== FEEDBACK TÁCTIL EN BANNERS Y BOTONES ===== */
+
+/* Banners hero cuando se presionan (mobile / click) */
+.section-block .promo-banner:active{
+  transform:translateY(1px) scale(.985);
+  filter:brightness(.95);
+  box-shadow:0 10px 24px rgba(0,0,0,.85);
+}
+
+/* Botones en general */
+.btn:active{
+  transform:translateY(1px) scale(.97);
+  box-shadow:0 6px 16px rgba(0,0,0,.8);
+}
+
+/* Evitar que se rompa el layout al hacer tap en mobile */
+.btn,
+.section-block .promo-banner{
+  transform-origin:center center;
+}
+  </style>
+
+  <!-- FAB flotante de contacto (WhatsApp / Telegram / Email) -->
+  <style>
+    .contact-fab{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      z-index:999;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-end;
+      pointer-events:auto;
+    }
+
+    .contact-fab__btn{
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      border:none;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:radial-gradient(circle at 30% 0%, #38f9a5, #0b5e3a);
+      box-shadow:0 10px 30px rgba(0,0,0,.8);
+      color:#fff;
+      font-size:1.6rem;
+      transform:translateZ(0);
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        filter .18s ease;
+    }
+    .contact-fab__btn:hover{
+      transform:translateY(-1px) scale(1.02);
+      box-shadow:0 14px 40px rgba(0,0,0,.95);
+      filter:brightness(1.05);
+    }
+
+    .contact-fab__list{
+      display:flex;
+      flex-direction:column-reverse; /* se despliegan hacia ARRIBA */
+      align-items:flex-end;
+      gap:8px;
+      margin-right:4px;
+      margin-bottom:4px;
+      max-height:0;
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+      overflow:hidden;
+      transition:
+        max-height .25s ease,
+        opacity .2s ease,
+        transform .2s ease;
+    }
+
+    .contact-fab.open .contact-fab__list{
+      max-height:300px;
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+
+    .contact-fab__item{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(5,7,11,.95);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 8px 20px rgba(0,0,0,.85);
+      text-decoration:none;
+      font-size:.8rem;
+      color:#e7f7ff;
+      white-space:nowrap;
+    }
+    .contact-fab__item-icon{
+      width:20px;
+      height:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background:rgba(24,210,110,.12);
+    }
+    .contact-fab__item-label{
+      letter-spacing:.03em;
+      text-transform:uppercase;
+    }
+
+    @media (max-width:768px){
+      .contact-fab{
+        right:12px;
+        bottom:12px;
+      }
+      .contact-fab__btn{
+        width:52px;
+        height:52px;
+        font-size:1.5rem;
+      }
+      .contact-fab__item{
+        font-size:.78rem;
+        padding:7px 9px;
+      }
+    }
+  </style>
+</head>
+<body class="neon-bg">
+  <!-- Fondo decorativo -->
+  <div class="bg-frame" aria-hidden="true"></div>
+
+<header class="site-header" role="banner">
+  <div class="nav container">
+    <!-- LOGO -->
+    <a href="index.html" class="brand" aria-label="BPLAY">
+      <img id="brandLogo" src="assets/brand/bplay-logo.png" alt="BPLAY" class="brand-logo">
+      <span class="brand-fallback" aria-hidden="true" style="display:none">BPLAY</span>
+    </a>
+
+    <!-- BOTONES RÁPIDOS: CBU + PROMOS VIP (desktop + mobile) -->
+    <div class="header-quick">
+      <a href="cbu.html" class="vip-head-btn" aria-label="Ir a CBU">CBU</a>
+      <a href="promos.html" class="promos-head-btn" aria-label="Ir a Promos VIP">PROMOS VIP</a>
+    </div>
+
+    <!-- IZQUIERDA -->
+    <nav class="nav-left nav-tabs" aria-label="Secciones izquierda">
+      <a class="nav-link" href="cbu.html">DEPOSITAR</a>
+      <a class="nav-link" href="promos.html">PROMOS VIP</a>
+      <span class="nav-ink" aria-hidden="true"></span>
+    </nav>
+
+    <!-- DERECHA -->
+    <nav class="nav-right nav-tabs" aria-label="Secciones derecha">
+      <a class="nav-link" href="#faq">FAQ</a>
+      <a id="link-registro" class="nav-link" data-register-link href="#registro">REGISTRATE</a>
+      <a id="link-login" class="nav-link" data-login-link href="#login">INICIAR SESIÓN</a>
+      <span class="nav-ink" aria-hidden="true"></span>
+    </nav>
+
+    <!-- INFO + BURGER -->
+    <div class="header-info">
+      <div id="clock">--:--</div>
+      <div id="geo">Argentina</div>
+    </div>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+
+  <!-- MENÚ MOBILE -->
+  <nav id="mobileMenu" class="mobile-menu" hidden>
+    <ul>
+      <li><a href="cbu.html" class="menu-cbu">CBU</a></li>
+      <li><a href="cbu.html">DEPOSITAR</a></li>
+      <li><a href="promos.html">PROMOS VIP</a></li>
+      <li><a href="#contacto-soporte">CONTACTO</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#registro" data-register-link>REGISTRATE</a></li>
+      <li><a href="#login" data-login-link>INICIAR SESIÒN</a></li>
+    </ul>
+  </nav>
+</header>
+
+  <!-- ===== MAIN ===== -->
+  <main id="main" tabindex="-1">
+  
+    <!-- MICROCOPY HERO -->
+    <section class="hero-intro reveal">
+      <div class="container">
+        <p class="hero-microcopy">
+          Activá tus <strong>promos</strong> en 1 toque
+        </p>
+      </div>
+    </section>
+
+    <!-- HERO ALL-IN-ONE (banners apilados, clickeables a WhatsApp) -->
+    <section class="section-block reveal">
+      <!-- Promo Joker / tiros gratis -->
+      <a
+        class="promo-banner"
+        href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20JOKER"
+        target="_blank"
+        rel="noopener"
+      >
+        <img src="media/promos/hero-promociones.webp" alt="Promo Tiros Gratis">
+      </a>
+
+      <!-- Promo Referidos -->
+      <a
+        class="promo-banner"
+        href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20REFERIDOS"
+        target="_blank"
+        rel="noopener"
+      >
+        <img src="media/promos/hero-2.webp" alt="Promo Referidos">
+      </a>
+
+      <!-- Promo Primer Depósito -->
+      <a
+        class="promo-banner"
+        href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20PRIMER%20DEPOSITO"
+        target="_blank"
+        rel="noopener"
+      >
+        <img src="media/promos/slide-primer-deposito.webp" alt="Promo Primer Depósito">
+      </a>
+
+      <!-- Unite al canal -->
+      <a
+        class="promo-banner"
+        href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20unirme%20al%20canal%20de%20Bplay"
+        target="_blank"
+        rel="noopener"
+      >
+        <img src="media/promos/hero-3.webp" alt="Unite al Canal">
+      </a>
+    </section>
+
+    <!-- BLOQUE ¿QUÉ HAGO PRIMERO? -->
+    <section class="first-steps reveal" aria-label="Qué hacer primero">
+      <div class="container">
+        <div class="first-steps-card">
+          <h2 class="first-steps-title">¿Qué hago primero?</h2>
+          <ul class="first-steps-list">
+            <li class="first-steps-item">
+              <span class="step-icon">1️⃣</span>
+              <span class="step-text">Registrate en Bplay de tu provincia.</span>
+            </li>
+            <li class="first-steps-item">
+              <span class="step-icon">2️⃣</span>
+              <span class="step-text">Depositá fácil con CBU o tu método favorito.</span>
+            </li>
+            <li class="first-steps-item">
+              <span class="step-icon">3️⃣</span>
+              <span class="step-text">Escribinos por WhatsApp y activamos tus promos.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+<!-- BOTÓN REGISTRATE DEBAJO DE ¿QUÉ HAGO PRIMERO? -->
+<section class="first-steps-cta reveal" aria-label="Registrate ahora">
+  <div class="container">
+    <a class="btn primary btn-full" href="#registro" data-register-link>
+      Registrate ahora
+    </a>
+  </div>
+</section>
+
+    <!-- VIP: Promos & Sorteo (liviano, accesible y responsive) -->
+    <section id="vip" class="vip-section container reveal" aria-label="Promos y Sorteos VIP">
+      <a href="promos.html" class="vip-card" aria-label="Ir a Promos VIP">
+        <div class="vip-badge" aria-hidden="true">PROMOS VIP</div>
+        <h3 class="vip-title">Promos exclusivas</h3>
+        <p class="vip-text">Bonos, giros y beneficios especiales para tu cuenta.</p>
+        <span class="vip-cta">Ver promos</span>
+      </a>
+
+      <a href="sorteo.html" class="vip-card" aria-label="Ir a Sorteo VIP">
+        <div class="vip-badge" aria-hidden="true">SORTEO VIP</div>
+        <h3 class="vip-title">Sorteo semanal</h3>
+        <p class="vip-text">Participá y seguí el calendario de premios.</p>
+        <span class="vip-cta">Ver sorteo</span>
+      </a>
+    </section>
+
+    <!-- Scroller de pagos -->
+    <div class="payments-scroller reveal">
+      <div class="payments-runner">
+        <ul class="payments-track">
+          <li><img class="paylogo" src="assets/payments/uala.png" alt="Ualá"></li>
+          <li><img class="paylogo" src="assets/payments/trilenium.png" alt="Trilenium"></li>
+          <li><img class="paylogo" src="assets/payments/transferencia.png" alt="Transferencia Bancaria"></li>
+          <li><img class="paylogo" src="assets/payments/totalcoin.png" alt="TotalCoin"></li>
+          <li><img class="paylogo" src="assets/payments/modo.png" alt="Modo"></li>
+          <li><img class="paylogo" src="assets/payments/personalpay.png" alt="Personal Pay"></li>
+          <li><img class="paylogo" src="assets/payments/naranjax.png" alt="Naranja X"></li>
+          <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt="Mercado Pago"></li>
+          <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt="Claro Pay"></li>
+          <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt="Cabal"></li>
+        </ul>
+        <ul class="payments-track" aria-hidden="true">
+          <li><img class="paylogo" src="assets/payments/uala.png" alt=""></li>
+          <li><img class="paylogo" src="assets/payments/trilenium.png" alt=""></li>
+          <li><img class="paylogo" src="assets/payments/transferencia.png" alt=""></li>
+          <li><img class="paylogo" src="assets/payments/totalcoin.png" alt=""></li>
+          <li><img class="paylogo" src="assets/payments/modo.png" alt=""></li>
+          <li><img class="paylogo" src="assets/payments/personalpay.png" alt=""></li>
+          <li><img class="paylogo" src="assets/payments/naranjax.png" alt=""></li>
+          <li><img class="paylogo paylogo--mercadopago" src="assets/payments/mercadopago.svg" alt=""></li>
+          <li><img class="paylogo paylogo--claropay" src="assets/payments/claropay.svg" alt=""></li>
+          <li><img class="paylogo paylogo--cabal" src="assets/payments/cabal.png" alt=""></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Categorías -->
+    <section id="categorias" class="reveal">
+      <div class="container">
+        <h2>Categorías</h2>
+        <div class="cat-grid">
+          <button class="cat-card" type="button" data-target="modal-depositos"><h3>Depósitos</h3><p>Cómo cargar saldo, tiempos y medios.</p></button>
+          <button class="cat-card" type="button" data-target="modal-retiros"><h3>Retiros</h3><p>Cómo retirar, requisitos y demoras.</p></button>
+          <button class="cat-card" type="button" data-target="modal-promos"><h3>Promociones</h3><p>Condiciones de uso y validez.</p></button>
+          <button class="cat-card" type="button" data-target="modal-identidad"><h3>Validación de identidad</h3><p>Documentos, selfie y estado de validación.</p></button>
+
+          <button class="cat-card" type="button" data-target="modal-apuestas-que-es">
+            <h3>¿Qué son las apuestas deportivas?</h3><p>Conceptos básicos y cómo funcionan.</p>
+          </button>
+          <button class="cat-card" type="button" data-target="modal-apuestas-como-hacer">
+            <h3>¿Cómo hacer una apuesta deportiva en Bplay?</h3><p>Paso a paso para crear tu cupón.</p>
+          </button>
+          <button class="cat-card" type="button" data-target="modal-apuestas-general">
+            <h3>Apuestas deportivas en Bplay</h3><p>Recorrido general del Sportsbook.</p>
+          </button>
+
+          <button class="cat-card" type="button" data-target="modal-problemas"><h3>Problemas comunes</h3><p>Errores frecuentes y soluciones rápidas.</p></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MODALES ===== -->
+    <section id="modal-depositos" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Guía de depósitos</h3>
+        <p>Cómo cargar saldo usando tu método favorito.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Depósitos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-apuestas-que-es" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>¿Qué son las apuestas deportivas?</h3>
+        <p>Introducción a cuotas, mercados y resultados.</p>
+        <iframe data-yt width="100%" height="360" src="" title="¿Qué son las apuestas deportivas?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-apuestas-como-hacer" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>¿Cómo hacer una apuesta deportiva en Bplay?</h3>
+        <p>Seleccioná evento, mercado, cuota y confirmá.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Cómo apostar en Bplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-apuestas-general" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Apuestas deportivas en Bplay</h3>
+        <p>Tour general por funciones del Sportsbook.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Apuestas deportivas en Bplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-retiros" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Guía de retiros</h3>
+        <p>Cómo retirar a tu CBU/CVU y tiempos estimados.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Retiros" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-promos" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Usar un código promocional</h3>
+        <p>Activá y usá tus bonos. Revisá condiciones de cada beneficio.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Promos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-identidad" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Validación de identidad</h3>
+        <p>Completá documento y selfie desde tu perfil.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Identidad" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <section id="modal-problemas" class="overlay" hidden>
+      <div class="overlay-content">
+        <h3>Solución de problemas comunes</h3>
+        <p>Errores frecuentes y cómo resolverlos rápidamente.</p>
+        <iframe data-yt width="100%" height="360" src="" title="Problemas comunes" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <button class="overlay-close" type="button" data-close>Cerrar</button>
+      </div>
+    </section>
+
+    <!-- Mega banner + video -->
+    <section class="mega-promo container reveal">
+      <div class="mega-grid">
+        <a class="mega-banner" href="#" title="+ de 1000 slots">
+          <img src="assets/banners/slots-2200x360.jpg" alt="+ de 1000 slots en nuestra plataforma">
+        </a>
+        <div class="mega-video">
+          <iframe
+            width="100%" height="100%"
+            src="https://www.youtube.com/embed/hgsRNl0xiOQ?rel=0&modestbranding=1"
+            title="Bplay Propaganda" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FAB FLOTANTE DE CONTACTO -->
+  <div class="contact-fab" id="contactFab">
+    <div class="contact-fab__list">
+      <!-- Email -->
+      <a class="contact-fab__item" href="mailto:atencionbplayperg@gmail.com">
+        <span class="contact-fab__item-icon">
+          <ion-icon name="mail-outline"></ion-icon>
+        </span>
+        <span class="contact-fab__item-label">Email</span>
+      </a>
+
+      <!-- Telegram (ajustá el link real si es otro) -->
+      <a class="contact-fab__item" href="https://t.me/" target="_blank" rel="noopener">
+        <span class="contact-fab__item-icon">
+          <ion-icon name="paper-plane-outline"></ion-icon>
+        </span>
+        <span class="contact-fab__item-label">Telegram</span>
+      </a>
+
+      <!-- WhatsApp -->
+      <a class="contact-fab__item" href="https://wa.me/5492617490475" target="_blank" rel="noopener">
+        <span class="contact-fab__item-icon">
+          <ion-icon name="logo-whatsapp"></ion-icon>
+        </span>
+        <span class="contact-fab__item-label">WhatsApp</span>
+      </a>
+    </div>
+
+    <button class="contact-fab__btn" type="button" aria-expanded="false" aria-label="Abrir menú de contacto">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+    </button>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bp-footer" role="contentinfo">
+    <div class="bp-footer__top">
+      <div class="container bp-footer__grid">
+        <section class="bp-col">
+          <h3 class="bp-brand">BPLAY</h3>
+          <p class="bp-foot-text">Te ayudamos a resolver todo en 1 minuto.</p>
+          <ul class="bp-contact">
+            <li><a href="https://wa.me/5492617490475" class="bp-contact__item">💬 WhatsApp</a></li>
+            <li><a href="mailto:atencionbplayperg@gmail.com" class="bp-contact__item">✉️ atencionbplayperg@gmail.com</a></li>
+            <li><a href="tel:+5492617490475" class="bp-contact__item">📞 261 7490475</a></li>
+          </ul>
+        </section>
+
+        <nav class="bp-col" aria-labelledby="t-enlaces">
+          <h4 id="t-enlaces" class="bp-title">Enlaces útiles</h4>
+          <ul class="bp-links">
+            <li><a href="#faq">Centro de ayuda / FAQ</a></li>
+            <li><a href="#deposito-retiro" data-open="deposito-retiro">Depósitos y Retiros</a></li>
+            <li><a href="#promociones" data-open="promociones">Promociones</a></li>
+            <li><a href="#registro" data-register-link>Registro</a></li>
+            <li><a href="/terminos">Términos y condiciones</a></li>
+            <li><a href="/juego-responsable">Juego responsable</a></li>
+          </ul>
+        </nav>
+
+        <section class="bp-col" aria-labelledby="t-pagos">
+          <h4 id="t-pagos" class="bp-title">Métodos de pago</h4>
+          <ul class="bp-payments">
+            <li><img class="bp-paylogo" src="assets/payments/uala.png" alt="Ualá"></li>
+            <li><img class="bp-paylogo" src="assets/payments/trilenium.png" alt="Trilenium"></li>
+            <li><img class="bp-paylogo" src="assets/payments/transferencia.png" alt="Transferencia bancaria"></li>
+            <li><img class="bp-paylogo" src="assets/payments/totalcoin.png" alt="TotalCoin"></li>
+            <li><img class="bp-paylogo" src="assets/payments/modo.png" alt="Modo"></li>
+            <li><img class="bp-paylogo" src="assets/payments/personalpay.png" alt="Personal Pay"></li>
+            <li><img class="bp-paylogo" src="assets/payments/naranjax.png" alt="Naranja X"></li>
+            <li><img class="bp-paylogo bp--mercadopago" src="assets/payments/mercadopago.svg" alt="Mercado Pago"></li>
+            <li><img class="bp-paylogo bp--claropay" src="assets/payments/claropay.svg" alt="Claro Pay"></li>
+            <li><img class="bp-paylogo bp--cabal" src="assets/payments/cabal.png" alt="Cabal"></li>
+          </ul>
+          <p class="bp-foot-muted">La disponibilidad de métodos puede variar según tu jurisdicción/provincia y estado de tu cuenta.</p>
+        </section>
+
+        <section class="bp-col" aria-labelledby="t-cumplimiento">
+          <h4 id="t-cumplimiento" class="bp-title">Cumplimiento</h4>
+          <ul class="bp-badges">
+            <li><span class="bp-badge">+18</span></li>
+            <li><span class="bp-badge">Jugar Responsable</span></li>
+            <li><span class="bp-badge">Cifrado TLS</span></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <div class="bp-footer__bottom">
+      <div class="container bp-bottom__row">
+        <p class="bp-copy">© 2025 Bplay. Todos los derechos reservados.</p>
+        <ul class="bp-legal-mini">
+          <li><a href="/terminos">Términos</a></li>
+          <li><a href="/politica-privacidad">Privacidad</a></li>
+          <li><a href="/cookies">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JS ===== -->
+  <script type="module" src="script_index.js"></script>
+  <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" type="module"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>   
+  <script src="app.js"></script>
+
+  <!-- ===== JS EXTRA: menú hamburguesa + animaciones de scroll + FAB contacto ===== -->
+  <script>
+    function setupMobileMenu() {
+      const btn = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("mobileMenu");
+      if (!btn || !menu) return;
+
+      btn.addEventListener("click", () => {
+        const isOpen = btn.getAttribute("aria-expanded") === "true";
+        const newState = !isOpen;
+        btn.setAttribute("aria-expanded", String(newState));
+        menu.hidden = !newState;
+        document.body.classList.toggle("menu-open", newState);
+      });
+
+      menu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          btn.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+          document.body.classList.remove("menu-open");
+        });
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") {
+          btn.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+          document.body.classList.remove("menu-open");
+        }
+      });
+    }
+
+    function setupScrollReveal() {
+      const items = document.querySelectorAll(".reveal");
+      if (!items.length) return;
+
+      if (!("IntersectionObserver" in window)) {
+        items.forEach(el => el.classList.add("is-visible"));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      items.forEach(el => observer.observe(el));
+    }
+
+    function setupContactFab() {
+      const fab = document.getElementById("contactFab");
+      if (!fab) return;
+      const btn = fab.querySelector(".contact-fab__btn");
+
+      btn.addEventListener("click", () => {
+        const isOpen = fab.classList.toggle("open");
+        btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!fab.contains(e.target)) {
+          fab.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      setupMobileMenu();
+      setupScrollReveal();
+      setupContactFab();
+    });
+  </script>
+</body>
+</html>

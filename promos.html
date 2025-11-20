@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promociones | Bplay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Estilos mínimos para CTA fijo y panel VIP -->
+  <style>
+    /* ------ CTA VIP fijo debajo del slider ------ */
+    .promo-cta-fixed{
+      margin-top:10px;
+      display:flex;
+      justify-content:center;
+    }
+    .vip-cta-btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 18px; border-radius:999px; text-decoration:none;
+      font-weight:900; letter-spacing:.06em;
+      color:#2b2100;
+      background:linear-gradient(180deg,#ffe784,#ffd94a);
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow:0 0 22px rgba(255,217,74,.35), 0 6px 18px rgba(0,0,0,.35);
+      transform:translateZ(0);
+      transition:filter .2s ease, transform .12s ease, box-shadow .2s ease;
+    }
+    .vip-cta-btn:hover{ filter:brightness(1.03); transform:translateY(-1px); }
+    .vip-cta-btn:active{ transform:translateY(0); }
+
+    /* ------ Panel VIP interactivo ------ */
+    .promo-info{margin-top:12px;display:grid;gap:10px}
+    .promo-info .info{
+      border-radius:14px; padding:14px 16px;
+      background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.78));
+      border:1px solid rgba(255,255,255,.06); color:#f2fff7; display:none
+    }
+    .promo-info .info.is-active{display:block}
+    .promo-info h3{margin:0 0 6px; font-size:1.05rem; font-weight:900; letter-spacing:.02em}
+    .vip-badge{display:inline-grid;place-items:center;height:26px;padding:0 10px;border-radius:999px;
+      font-weight:800;letter-spacing:.03em;color:#2c2100;background:linear-gradient(180deg,#ffe784,#ffd94a);
+      box-shadow:0 0 16px rgba(255,217,74,.3)}
+    .promo-info ul{margin:.35rem 0 .2rem 1.1rem}
+    .promo-info li{margin:.15rem 0}
+    .promo-info .muted{opacity:.78}
+
+    /* Ocultamos los botoncitos internos anteriores (queda un único CTA) */
+    .promo-info .btn-mini{ display:none !important; }
+
+    /* Suavizar el fade del slide un poco más */
+    .slider .slide{ transition: opacity .8s ease; }
+  </style>
+</head>
+<body>
+  <div class="bg-frame" aria-hidden="true"></div>
+
+  <!-- ===== HEADER ===== -->
+<!-- ===== HEADER (Promos) ===== -->
+<header class="site-header" role="banner">
+  <div class="nav container">
+    <!-- LOGO -->
+    <a href="index.html" class="brand" aria-label="BPLAY">
+      <img id="brandLogo" src="assets/brand/bplay-logo.png" alt="BPLAY" class="brand-logo">
+      <span class="brand-fallback" aria-hidden="true" style="display:none">BPLAY</span>
+    </a>
+
+    <!-- BOTÓN VIP CBU -->
+    <a href="cbu.html" class="vip-head-btn" aria-label="CBU">CBU</a>
+
+    <!-- NAV IZQUIERDA -->
+    <nav class="nav-left nav-tabs" aria-label="Secciones izquierda">
+      <a class="nav-link" href="index.html#deposito-retiro">Depositar</a>
+      <a class="nav-link is-active" href="promos.html">Promos VIP</a>
+      <span class="nav-ink" aria-hidden="true"></span>
+    </nav>
+
+    <!-- NAV DERECHA -->
+    <nav class="nav-right nav-tabs" aria-label="Secciones derecha">
+      <a class="nav-link" href="index.html#faq">FAQ</a>
+      <a class="nav-link" href="#registro" data-register-link id="link-registro">Registrate</a>
+      <a class="nav-link" href="#login" data-login-link id="link-login">Iniciar sesión</a>
+      <span class="nav-ink" aria-hidden="true"></span>
+    </nav>
+
+    <!-- INFO + HAMBURGUESA -->
+    <div class="header-info">
+      <div id="clock">--:--</div>
+      <div id="geo">Argentina</div>
+    </div>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+
+  <!-- MENÚ MOBILE -->
+  <nav id="mobileMenu" class="mobile-menu" hidden>
+    <ul>
+      <li><a href="cbu.html" class="menu-cbu">CBU</a></li>
+      <li><a href="index.html#deposito-retiro">Depósito/Retiro</a></li>
+      <li><a href="promos.html">Promociones</a></li>
+      <li><a href="index.html#contacto-soporte">Contacto soporte</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="#registro" data-register-link>Registro</a></li>
+      <li><a href="#login" data-login-link>Iniciar sesión</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+  <!-- ===== MAIN ===== -->
+  <main class="container page-narrow">
+    <h1 class="page-title">Promociones</h1>
+
+    <!-- SLIDER -->
+    <div class="slider hero-slider" id="promoSlider" data-slider>
+      <div class="slides">
+        <div class="slide is-active" id="joker"><img src="media/promos/slide-joker.webp" alt="Promo Joker"></div>
+        <div class="slide" id="primer-deposito"><img src="media/promos/slide-primer-deposito.webp" alt="Primer depósito"></div>
+        <div class="slide" id="referidos"><img src="media/promos/slide-sorteos.webp" alt="Promo de referidos"></div>
+      </div>
+      <div class="dots"></div>
+    </div>
+
+    <!-- PANEL VIP INTERACTIVO (sin recargar, sincronizado al slide) -->
+    <section class="promo-info" id="promoInfo" aria-live="polite">
+      <!-- JOKERS -->
+      <article class="info is-active" data-for="joker">
+        <span class="vip-badge">PROMO JOKERS 🤡</span>
+        <h3>¿Cómo accedo?</h3>
+        <p class="muted">Hacé una carga hoy (válida solo por hoy). Según el monto, recibís tiros gratis. Luego enviá el comprobante a soporte.</p>
+
+        <h3>¿Cuántos tiros y en qué juegos?</h3>
+        <ul>
+          <li><strong>$20.000 → 450 tiros</strong>: 300 en <em>Joker’s Jewels Bplay</em> 💚, 100 en <em>Joker’s Jewels</em> 🃏 y 50 en <em>Joker’s Jewels Wild</em> 🃏</li>
+          <li><strong>$10.000 → 150 tiros</strong>: 100 en <em>Joker’s Jewels</em> y 50 en <em>Joker’s Jewels Wild</em></li>
+          <li><strong>$5.000 → 50 tiros</strong>: 50 en <em>Joker’s Jewels Wild</em></li>
+        </ul>
+
+        <h3>¿Cómo es la ganancia?</h3>
+        <p class="muted">Todo lo ganado se acredita como <strong>BONO CASINO</strong> 🎰 para seguir jugando en la plataforma.</p>
+        <p class="muted"><strong>Válida LUNES y JUEVES.</strong></p>
+      </article>
+
+      <!-- PRIMER DEPÓSITO -->
+      <article class="info" data-for="primer-deposito">
+        <span class="vip-badge">PRIMER DEPÓSITO</span>
+        <h3>¿Cuál es la promo?</h3>
+        <p class="muted">Haciendo tu primer depósito de <strong>$5.000</strong> accedés a <strong>100 tiros gratis</strong> en Joker Jewels. ¡Con <strong>ganancia retirable</strong>!</p>
+
+        <h3>Requisitos</h3>
+        <ul>
+          <li>Ser usuario nuevo (sin depósitos previos).</li>
+          <li>Depósito mínimo: $5.000.</li>
+          <li>Enviar comprobante al soporte si se solicita.</li>
+        </ul>
+      </article>
+
+      <!-- REFERIDOS -->
+      <article class="info" data-for="referidos">
+        <span class="vip-badge">PROMO REFERIDOS 🤝</span>
+        <h3>¿Cómo califico?</h3>
+        <ul>
+          <li>Invitá a una persona que no esté registrada en Bplay.</li>
+          <li>Debe contactarnos <em>antes</em> de registrarse.</li>
+          <li>Cuando deposite $5.000, recibís <strong>$10.000</strong> para jugar.</li>
+          <li>Aplica por cada usuario nuevo que traés y deposite $5.000.</li>
+        </ul>
+        <p class="muted"><strong>Importante:</strong> cuenta real y nueva, depósito mínimo $5.000, sujeto a validación de la plataforma.</p>
+      </article>
+    </section>
+
+    <!-- CBU por provincia -->
+    <div id="bankBox" class="bank-box" hidden>
+      <div class="bank-box__header">
+        <h3>Transferí con CBU según tu provincia</h3>
+        <small id="bankBoxGeo">(detectando ubicación…)</small>
+      </div>
+      <div class="bank-box__row">
+        <span class="bank-box__label">CBU:</span>
+        <code class="bank-box__value" id="bankCbu">—</code>
+        <button class="btn tiny" data-copy="#bankCbu">Copiar</button>
+      </div>
+      <p class="bank-box__hint">Elegí manualmente si es necesario:</p>
+      <div class="bank-box__select">
+        <select id="provSel">
+          <option value="">Detectar automáticamente</option>
+          <option value="CABA">CABA</option>
+          <option value="BUENOS AIRES">PBA</option>
+          <option value="SANTA FE">Santa Fe</option>
+          <option value="CORDOBA">Córdoba</option>
+          <option value="MENDOZA">Mendoza</option>
+        </select>
+      </div>
+    </div>
+  </main>
+  
+    <!-- CTA VIP ÚNICO (fijo debajo del slider) -->
+    <div class="promo-cta-fixed">
+      <a class="vip-cta-btn"
+         href="https://wa.me/5492617490475?text=Hola%20quiero%20activar%20mi%20PROMO"
+         target="_blank" rel="noopener">
+        ACTIVA&nbsp;TU&nbsp;PROMO
+      </a>
+    </div>
+  <!-- ===== FOOTER ===== -->
+  <footer class="bp-footer">
+    <div class="bp-footer__bottom">
+      <div class="container bp-bottom__row">
+        <p class="bp-copy">© 2025 Bplay. Todos los derechos reservados.</p>
+        <ul class="bp-legal-mini">
+          <li><a href="/terminos">Términos</a></li>
+          <li><a href="/politica-privacidad">Privacidad</a></li>
+          <li><a href="/cookies">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FAB -->
+  <div class="fab" data-fab>
+    <button class="fab__main" aria-label="Contactos"><span>+</span></button>
+    <a class="fab__item" href="https://wa.me/5492617490475" target="_blank" rel="noopener">WA</a>
+    <a class="fab__item" href="https://t.me/tu_canal" target="_blank" rel="noopener">TG</a>
+  </div>
+
+  <script src="app.js"></script>
+<script type="module" src="script_promos.js"></script>
+</body>
+</html>
