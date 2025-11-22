@@ -3,63 +3,170 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sorteos | Bplay</title>
+  <title>Sorteo | Bplay</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+
+<body class="sorteos-page">
+  <!-- Fondo global -->
   <div class="bg-frame" aria-hidden="true"></div>
+
+  <!-- Loader suave -->
+  <div id="sorteoLoader" class="sorteo-loader" aria-hidden="true">
+    <div class="sorteo-loader__inner">
+      <img src="assets/brand/bplay-logo.png" alt="Bplay" class="sorteo-loader__logo">
+      <p>Preparando tu entrada al sorteo…</p>
+    </div>
+  </div>
+
+  <!-- HEADER -->
   <header class="site-header">
     <div class="nav container">
-      <a href="/" class="brand brand--left"><img src="assets/brand/bplay-logo.png" class="brand-logo" alt="BPLAY"></a>
+      <a href="/" class="brand brand--left">
+        <img src="assets/brand/bplay-logo.png" class="brand-logo" alt="BPLAY">
+      </a>
+
       <nav class="nav-left nav-tabs">
         <a class="nav-link" href="/">Inicio</a>
         <a class="nav-link is-active" href="sorteo.html">Sorteos</a>
         <a class="nav-link" href="promos.html">Promos</a>
         <span class="nav-ink"></span>
       </nav>
-      <button class="nav-toggle" aria-label="Abrir menú"><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span></button>
+
+      <div class="header-info">
+        <span id="clock">--:--</span>
+        <span id="geo">Argentina</span>
+      </div>
+
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
     </div>
+
+    <!-- Menú mobile -->
+    <nav class="mobile-menu" hidden>
+      <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="sorteo.html" class="is-active">Sorteos</a></li>
+        <li><a href="promos.html">Promos</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main class="container page-narrow">
-    <h1 class="page-title">Sorteos</h1>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container page-narrow sorteos-main">
+    <section
+      class="sorteo-hero"
+      aria-labelledby="sorteo-title"
+      data-sorteo-slug="sorteo-cbu-oro-plata">
+      <!-- Imagen del sorteo (izquierda) -->
+      <div class="sorteo-hero__img">
+        <img
+          id="sorteoHeroImg"
+          src="media/promos/slide-sorteos.webp"
+          alt="Sorteo Bplay: $15.000 Oro y $10.000 Plata para clientes CBU"
+          loading="lazy">
+      </div>
 
-    <!-- Slider específico de sorteos -->
-    <div class="slider hero-slider" data-slider>
-      <div class="slides">
-        <div class="slide"><img src="media/promos/slide-sorteos.webp" alt="Sorteo semanal"></div>
-        <div class="slide"><img src="media/promos/slide-joker.webp" alt="Promo Joker"></div>
-        <div class="slide"><img src="media/promos/slide-primer-deposito.webp" alt="Primer depósito"></div>
-      </div>
-      <div class="dots"></div>
-    </div>
+      <!-- Info + premios + CTA (derecha) -->
+      <div class="sorteo-hero__info">
+        <p class="sorteo-kicker">SORTEO EXCLUSIVO</p>
 
-    <!-- Box bancario -->
-    <div id="bankBox" class="bank-box" hidden>
-      <div class="bank-box__header">
-        <h3>Transferí con CBU según tu provincia</h3>
-        <small id="bankBoxGeo">(detectando ubicación…)</small>
+        <!-- Premios Oro / Plata -->
+        <div class="sorteo-prizes">
+          <h1 class="sorteo-title" id="sorteo-title">
+            Participá por
+          </h1>
+
+          <div class="sorteo-prizes-grid">
+            <article class="prize-card prize-card--gold">
+              <span class="prize-rank">1º premio</span>
+              <span class="prize-amount" id="premioOro">$15.000</span>
+              <span class="prize-tag"></span>
+            </article>
+
+            <article class="prize-card prize-card--silver">
+              <span class="prize-rank">2º premio</span>
+              <span class="prize-amount" id="premioPlata">$10.000</span>
+              <span class="prize-tag"></span>
+            </article>
+          </div>
+        </div>
+
+        <!-- Contadores -->
+        <div class="sorteo-counts">
+          <!-- Cuenta regresiva (sorteos.js la usa con data-end) -->
+          <div
+            id="drawCountdown"
+            class="sorteo-countdown"
+            data-end="2025-11-30T23:59:00-03:00">
+            <span class="cd-label">Próximo sorteo</span>
+            <span class="cd-value" id="cdValue">--d --h --m</span>
+          </div>
+
+          <!-- Últimos cupos (sorteos.js juega entre data-min y data-total) -->
+          <div
+            id="slots"
+            class="sorteo-slots"
+            data-total="200"
+            data-min="150">
+            <div class="slots-top">
+              <span class="slots-label">Últimos cupos</span>
+              <span class="slots-num">
+                <span id="slotsCurrent">150</span> / 200
+              </span>
+            </div>
+            <div class="slots-bar">
+              <div class="slots-bar-fill" id="slotsFill">
+                <span id="slotsFillText">150 / 200</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA principal, bien arriba -->
+        <div class="sorteo-cta-row sorteos-wa-row--top">
+          <a
+            href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20participar%20del%20SORTEO%20de%20Bplay"
+            target="_blank"
+            rel="noopener"
+            class="btn whatsapp sorteos-wa-main">
+            ¡QUIERO PARTICIPAR!
+          </a>
+        </div>
+
+        <!-- Cómo participar (CBU + provincias) -->
+        <ul class="sorteo-steps">
+          <li>Escribinos por WhatsApp con la palabra <strong>"SORTEO"</strong>.</li>
+          <li>Te pasamos el CBU según tu provincia (CABA, PBA, Santa Fe, Córdoba o Mendoza) y hacés tu carga mínima de <strong>$5.000</strong>.</li>
+          <li>Cada carga válida = <strong>una chance</strong> para los premios</li>
+        </ul>
+
+
+        <p class="sorteo-legal">
+          Promoción válida para clientes con depósitos por CBU en CABA, PBA, Santa Fe,
+          Córdoba y Mendoza. +18 · Juego responsable · bplay.bet.ar
+        </p>
       </div>
-      <div class="bank-box__row">
-        <span class="bank-box__label">CBU:</span>
-        <code class="bank-box__value" id="bankCbu">—</code>
-        <button class="btn tiny" data-copy="#bankCbu">Copiar</button>
+    </section>
+
+    <!-- Mini feed de participantes -->
+    <section class="sorteo-feed" aria-live="polite">
+      <div class="sorteo-feed__head">
+        <span class="feed-dot"></span>
+        <p>Últimos participantes</p>
       </div>
-      <p class="bank-box__hint">Elegí manualmente si es necesario:</p>
-      <div class="bank-box__select">
-        <select id="provSel">
-          <option value="">Detectar automáticamente</option>
-          <option value="CABA">CABA</option>
-          <option value="BUENOS AIRES">PBA</option>
-          <option value="SANTA FE">Santa Fe</option>
-          <option value="CORDOBA">Córdoba</option>
-          <option value="MENDOZA">Mendoza</option>
-        </select>
-      </div>
-    </div>
+      <ul id="feedList" class="sorteo-feed__list">
+        <!-- sorteos.js va inyectando nombres acá -->
+      </ul>
+    </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="bp-footer">
     <div class="bp-footer__bottom">
       <div class="container bp-bottom__row">
@@ -73,12 +180,26 @@
     </div>
   </footer>
 
+  <!-- FAB global -->
   <div class="fab" data-fab>
     <button class="fab__main" aria-label="Contactos"><span>+</span></button>
-    <a class="fab__item" href="https://wa.me/5491112345678" target="_blank" rel="noopener">WA</a>
-    <a class="fab__item" href="https://t.me/tu_canal" target="_blank" rel="noopener">TG</a>
+    <a
+      class="fab__item"
+      href="https://wa.me/5492617490475?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Bplay"
+      target="_blank"
+      rel="noopener">WA</a>
+    <a
+      class="fab__item"
+      href="https://t.me/tu_canal"
+      target="_blank"
+      rel="noopener">TG</a>
   </div>
+  <!-- Scripts -->
+  <!-- 1) Supabase (global window.supabase) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.0/dist/umd/supabase.min.js"></script>
 
+  <!-- 2) Tu JS -->
   <script src="app.js"></script>
+  <script src="sorteos.js"></script>
 </body>
 </html>

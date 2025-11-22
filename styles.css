@@ -2435,3 +2435,1371 @@ section img {
   margin:12px auto 0;
   text-align:center;
 }
+/* =========================
+   SORTEOS — Hero imagen + texto
+   ========================= */
+
+.page-sorteos .page-title{
+  margin-top: 18px;
+  margin-bottom: 4px;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+}
+.page-sorteos .page-subtitle{
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+/* Layout principal: imagen izq + texto der */
+.draw-hero{
+  margin-top: 8px;
+}
+.draw-layout{
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+  gap: clamp(18px, 3vw, 28px);
+  align-items: center;
+}
+@media (max-width: 840px){
+  .draw-layout{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Imagen */
+.draw-media{
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  box-shadow: 0 18px 40px rgba(0,0,0,.75);
+}
+.draw-media::before{
+  content:"";
+  position:absolute; inset:-40%;
+  background:
+    radial-gradient(80% 120% at 0% 0%, rgba(25,195,125,.35), transparent 60%),
+    radial-gradient(90% 120% at 100% 100%, rgba(79,70,229,.28), transparent 60%);
+  mix-blend-mode: soft-light;
+  opacity:.6;
+  pointer-events:none;
+}
+.draw-media img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform-origin: center;
+  transition: transform .5s ease, filter .5s ease;
+}
+
+/* Movimiento suave en hover / scroll (JS hace un pequeño parallax extra) */
+.page-sorteos .draw-media:hover img{
+  transform: scale(1.03);
+  filter: saturate(1.05);
+}
+
+/* Texto requerimientos */
+.draw-copy{
+  padding: 16px 18px;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(25,195,125,.16), transparent 55%),
+    linear-gradient(180deg, rgba(7,12,16,.95), rgba(5,8,11,.98));
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 14px 32px rgba(0,0,0,.75);
+}
+
+.draw-eyebrow{
+  margin: 0 0 6px;
+  font-size: .85rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.draw-title{
+  margin: 0 0 10px;
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+}
+
+.draw-list{
+  margin: 10px 0 10px;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.draw-list li{
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  color: var(--muted);
+  font-size: .95rem;
+}
+.draw-list li strong{
+  color: var(--accent);
+  min-width: 1.2rem;
+}
+
+.draw-note{
+  margin: 4px 0 12px;
+  font-size: .9rem;
+  color: #c4f0dd;
+}
+
+.draw-cta-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.draw-cta-row .btn{
+  min-height: 44px;
+  padding-inline: 14px;
+  font-size: .92rem;
+}
+.btn.ghost{
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: transparent;
+  color: var(--text);
+}
+.btn.ghost:hover{
+  background: rgba(255,255,255,.04);
+}
+
+.draw-legal{
+  margin: 0;
+  font-size: .8rem;
+  color: #8ea4b7;
+}
+
+/* Mobile ajustes */
+@media (max-width: 640px){
+  .draw-copy{
+    padding: 14px 12px;
+  }
+  .draw-cta-row{
+    flex-direction: column;
+  }
+  .draw-cta-row .btn{
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* =========================
+   Loader exclusivo de sorteos
+   ========================= */
+
+.loader-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 180% at 50% 0%, rgba(25,195,125,.55), transparent 60%),
+    radial-gradient(120% 180% at 0% 100%, rgba(56,189,248,.45), transparent 60%),
+    #020308;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+.loader-overlay.is-hidden{
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-inner{
+  text-align: center;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(5,10,14,.9);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 18px 40px rgba(0,0,0,.9);
+  min-width: min(320px, 80vw);
+}
+
+.loader-logo{
+  width: 52px;
+  height: 52px;
+  margin-inline: auto;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 1.4rem;
+  background: radial-gradient(120% 120% at 0% 0%, #22c55e, #16a34a);
+  color: #00130a;
+  box-shadow: 0 0 22px rgba(34,197,94,.6);
+  animation: loaderBounce 1.4s ease-in-out infinite;
+}
+@keyframes loaderBounce{
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+.loader-kicker{
+  margin: 10px 0 10px;
+  font-size: .9rem;
+  color: #e5f6ff;
+}
+
+.loader-bar{
+  position: relative;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(148,163,184,.4);
+  overflow: hidden;
+}
+.loader-bar__fill{
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg,#22c55e,#4ade80,#22c55e);
+  border-radius: inherit;
+  animation: loaderFill 1.8s ease-in-out infinite;
+}
+@keyframes loaderFill{
+  0%   { transform: translateX(-60%); }
+  50%  { transform: translateX(40%); }
+  100% { transform: translateX(120%); }
+}
+
+/* Fondo alternativo mientras se muestra el loader */
+.bg-frame--sorteo{
+  background:
+    radial-gradient(60% 80% at 15% 0%, rgba(59,130,246,.55), transparent 65%),
+    radial-gradient(60% 80% at 85% 100%, rgba(16,185,129,.65), transparent 65%),
+    linear-gradient(180deg,#020617,#02040a);
+}
+/* =========================================================
+   SORTEOS — Landing especial
+   ========================================================= */
+
+/* Fondo con más amarillo/verde y movimiento suave */
+.bg-frame--raffle{
+  background:
+    radial-gradient(70% 90% at 15% 0%, rgba(255,232,110,.22), transparent 70%),
+    radial-gradient(80% 100% at 85% 10%, rgba(25,195,125,.28), transparent 70%),
+    radial-gradient(100% 120% at 50% 120%, rgba(0,0,0,.7), transparent 70%),
+    linear-gradient(180deg,#050608 0%,#050a09 40%,#020304 100%);
+  animation: raffleBgPulse 16s ease-in-out infinite alternate;
+}
+@keyframes raffleBgPulse{
+  0%{ filter:saturate(1) brightness(1); }
+  100%{ filter:saturate(1.15) brightness(1.05); }
+}
+
+body.raffle-page{ overflow-x:hidden; }
+
+/* Loader inicial (2s) */
+.raffle-loader{
+  position:fixed; inset:0; z-index:11000;
+  display:grid; place-items:center;
+  background:
+    radial-gradient(80% 120% at 50% 0%, rgba(255,232,110,.25), transparent 60%),
+    #020304;
+  transition:opacity .26s ease, transform .26s ease;
+}
+.raffle-loader__inner{
+  display:grid; gap:12px; justify-items:center;
+}
+.raffle-loader__chip{
+  width:56px; height:56px; border-radius:50%;
+  border:3px solid #19c37d;
+  border-top-color:#ffe95a;
+  animation: raffleSpin .9s linear infinite;
+  box-shadow:0 0 24px rgba(255,233,90,.45);
+}
+.raffle-loader__text{
+  margin:0; color:#fdfdf0; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; font-size:.78rem;
+}
+@keyframes raffleSpin{
+  to{ transform:rotate(360deg); }
+}
+.raffle-loader.is-hidden{
+  opacity:0;
+  transform:scale(1.02);
+  pointer-events:none;
+}
+
+/* Layout principal sorteos */
+.raffle-main{
+  padding-block: clamp(18px, 4vw, 28px);
+}
+
+.raffle-hero{
+  display:grid;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: clamp(16px, 4vw, 32px);
+  align-items:stretch;
+  margin-bottom: clamp(20px, 4vw, 32px);
+}
+@media (max-width: 900px){
+  .raffle-hero{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Imagen del sorteo (izquierda) */
+.raffle-media{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.raffle-media img{
+  width:100%;
+  max-width:440px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 18px 48px rgba(0,0,0,.8);
+  background:#020304;
+}
+
+/* Texto y métricas (derecha) */
+.raffle-details{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  justify-content:center;
+}
+
+.raffle-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  background:linear-gradient(90deg,#22c55e,#bbf7d0);
+  color:#022014;
+  font-weight:800;
+  box-shadow:0 0 16px rgba(34,197,94,.4);
+}
+
+.raffle-heading{
+  margin:4px 0 2px;
+  font-size:clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight:800;
+}
+.raffle-heading__strong{
+  color:#fafa9a;
+  text-shadow:0 0 18px rgba(255,232,120,.55);
+}
+
+/* Cuenta regresiva */
+.raffle-countdown{
+  margin:4px 0 8px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.12);
+  font-size:.9rem;
+}
+.raffle-countdown span{
+  font-variant-numeric:tabular-nums;
+}
+
+/* Lista de pasos */
+.raffle-steps{
+  margin:6px 0 8px;
+  padding-left:18px;
+  color:var(--muted);
+}
+.raffle-steps li{ margin-bottom:4px; }
+
+/* Cupos + nota */
+.raffle-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:4px;
+}
+
+.raffle-spots{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.raffle-spots__label{
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  opacity:.75;
+}
+.raffle-spots__number{
+  font-size:1.6rem;
+  font-weight:900;
+  background:linear-gradient(120deg,#fef08a,#facc15,#22c55e);
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow:0 0 16px rgba(250,204,21,.35);
+}
+
+.raffle-note{
+  margin:0;
+  font-size:.8rem;
+  opacity:.8;
+}
+
+/* CTA principal */
+.raffle-cta{
+  margin-top:10px;
+  align-self:flex-start;
+  padding:.9rem 1.4rem;
+  border-radius:999px;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  border:0;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#02130a;
+  box-shadow:0 10px 28px rgba(34,197,94,.5);
+  text-decoration:none;
+}
+.raffle-cta:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 32px rgba(34,197,94,.65);
+}
+.raffle-cta:active{
+  transform:translateY(0);
+}
+
+/* En pantallas chicas, centrar todo */
+@media (max-width: 900px){
+  .raffle-details{
+    align-items:flex-start;
+  }
+}
+@media (max-width: 560px){
+  .raffle-details{
+    align-items:stretch;
+  }
+  .raffle-cta{
+    width:100%;
+    text-align:center;
+    justify-content:center;
+  }
+}
+
+/* Toast de usuarios participando */
+.raffle-toast{
+  position:fixed;
+  left:50%;
+  bottom:88px;
+  transform:translateX(-50%) translateY(120%);
+  padding:10px 14px;
+  border-radius:12px;
+  background:rgba(12,20,16,.95);
+  border:1px solid rgba(255,255,255,.12);
+  color:#e7fff5;
+  font-size:.86rem;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:0 12px 30px rgba(0,0,0,.7);
+  opacity:0;
+  pointer-events:none;
+  transition:transform .25s ease, opacity .25s ease;
+  z-index:10050;
+}
+.raffle-toast::before{
+  content:"🎟️";
+}
+.raffle-toast.is-visible{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* FAB reutiliza tus estilos previos; solo aseguramos que se vea encima */
+.fab{ z-index: 10040; }
+/* =========================================================
+   SORTEOS — Layout específico
+   ========================================================= */
+
+.sorteos-page .page-title{ display:none; } /* ya no usamos el H1 viejo */
+
+/* Loader suave */
+.sorteo-loader{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(120% 160% at 50% 0%, #0fd976, #020407);
+  transition:opacity .4s ease, transform .4s ease;
+}
+.sorteo-loader__inner{
+  display:grid;
+  gap:10px;
+  place-items:center;
+  text-align:center;
+  color:#021008;
+}
+.sorteo-loader__logo{
+  height:42px;
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,.5));
+}
+.sorteo-loader p{
+  margin:0;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.sorteo-loader.is-hidden{
+  opacity:0;
+  transform:translateY(-6px);
+  pointer-events:none;
+}
+
+/* Cuando termina la carga, damos un glow sutil al fondo */
+.sorteos-page.sorteo-ready .bg-frame{
+  background:
+    radial-gradient(60% 80% at 10% 0%, rgba(15,217,118,.16), transparent 60%),
+    radial-gradient(70% 90% at 90% 0%, rgba(15,217,118,.18), transparent 60%),
+    linear-gradient(180deg,#111720,#05070b);
+}
+
+/* Hero principal */
+.sorteos-main{
+  padding-block: clamp(18px,4vw,28px);
+}
+
+.sorteo-hero{
+  display:grid;
+  grid-template-columns: minmax(0,1.05fr) minmax(0,1.1fr);
+  gap:clamp(18px,4vw,32px);
+  align-items:center;
+}
+
+.sorteo-hero__img img{
+  border-radius:16px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+
+.sorteo-hero__info{
+  display:grid;
+  gap:10px;
+}
+
+.sorteo-kicker{
+  margin:0;
+  font-size:.78rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.sorteo-title{
+  margin:0;
+  font-size:clamp(1.6rem,3.4vw,2.2rem);
+  line-height:1.2;
+}
+.sorteo-title .sorteo-amount{
+  color:#ffe784;
+  text-shadow:0 0 18px rgba(255,216,77,.45);
+}
+
+/* Contadores */
+.sorteo-counts{
+  display:grid;
+  gap:10px;
+}
+
+.sorteo-countdown{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.08);
+  width:max-content;
+}
+.sorteo-countdown .cd-label{
+  font-size:.8rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+}
+.sorteo-countdown .cd-value{
+  font-weight:800;
+}
+
+/* Últimos cupos */
+.sorteo-slots{
+  display:grid;
+  gap:6px;
+  max-width:320px;
+}
+.slots-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:.86rem;
+}
+.slots-label{
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+}
+.slots-num{
+  font-weight:800;
+}
+.slots-bar{
+  position:relative;
+  width:100%;
+  height:22px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#05090c;
+  border:1px solid rgba(255,255,255,.18);
+}
+.slots-bar-fill{
+  position:absolute;
+  inset:0;
+  width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(90deg,#ffe784,#ffd94a);
+  color:#111;                /* texto negro como pediste */
+  font-size:.78rem;
+  font-weight:800;
+  transition:width .4s ease;
+}
+
+/* Pasos / CTAs */
+.sorteo-steps{
+  margin:4px 0 0;
+  padding-left:18px;
+  color:var(--muted);
+  font-size:.95rem;
+}
+.sorteo-steps li{ margin-bottom:4px; }
+
+.sorteo-cta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:6px;
+}
+.sorteo-legal{
+  margin:4px 0 0;
+  font-size:.78rem;
+  color:var(--muted);
+}
+
+/* Mini feed participantes */
+.sorteo-feed{
+  margin-top:18px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.06);
+}
+.sorteo-feed__head{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+  font-size:.85rem;
+  color:var(--muted);
+}
+.feed-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 10px rgba(34,197,94,.8);
+}
+.sorteo-feed__list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:4px;
+  font-size:.9rem;
+}
+.sorteo-feed__list li{
+  opacity:.9;
+}
+
+/* Sección CBU debajo del hero */
+.sorteo-banco{
+  margin-top:24px;
+}
+
+/* MOBILE */
+@media (max-width: 900px){
+  .sorteo-hero{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+  .sorteo-hero__info{
+    justify-items:center;
+  }
+  .sorteo-countdown{
+    margin-inline:auto;
+  }
+  .sorteo-slots{
+    margin-inline:auto;
+  }
+  .sorteo-steps{
+    text-align:left;
+  }
+  .sorteo-cta-row{
+    justify-content:center;
+  }
+}
+
+/* Mobile chico: apretamos un poquito más títulos */
+@media (max-width: 560px){
+  .sorteo-title{
+    font-size:1.4rem;
+  }
+  .sorteo-countdown{
+    padding:6px 10px;
+  }
+  .slots-bar{
+    height:20px;
+  }
+  .slots-bar-fill span{
+    font-size:.75rem;
+  }
+}
+.sorteo-loader{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(120% 160% at 50% 0%, #0fd976, #020407);
+  transition:opacity .4s ease, transform .4s ease;
+}
+
+.sorteo-loader__inner{
+  display:grid;
+  gap:10px;
+  place-items:center;
+  text-align:center;
+  color:#021008;
+}
+
+.sorteo-loader__logo{
+  height:42px;
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,.5));
+}
+
+.sorteo-loader p{
+  margin:0;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+/* cuando se oculta */
+.sorteo-loader.is-hidden{
+  opacity:0;
+  transform:translateY(-6px);
+  pointer-events:none;
+  visibility:hidden;
+}
+/* =========================
+   SORTEOS — Premios Oro / Plata
+   ========================= */
+
+.sorteo-hero__info{
+  display:grid;
+  gap:12px;
+}
+
+/* Bloque general de premios */
+.sorteo-prizes{
+  display:grid;
+  gap:8px;
+  align-items:flex-start;
+}
+
+.sorteo-title{
+  margin:0;
+  font-size:clamp(1.4rem, 3vw, 1.9rem);
+  font-weight:800;
+}
+
+/* Grid de las dos tarjetas */
+.sorteo-prizes-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap:10px;
+}
+
+.prize-card{
+  position:relative;
+  padding:10px 12px;
+  border-radius:14px;
+  display:grid;
+  gap:2px;
+  align-content:center;
+  overflow:hidden;
+  box-shadow:0 10px 22px rgba(0,0,0,.7);
+  isolation:isolate;
+}
+
+/* Animación de brillo en diagonal */
+.prize-card::before{
+  content:"";
+  position:absolute;
+  inset:-60%;
+  background:linear-gradient(120deg,
+              transparent 0%,
+              rgba(255,255,255,.7) 45%,
+              transparent 70%);
+  opacity:.0;
+  transform:translateX(-40%);
+  pointer-events:none;
+}
+
+@keyframes prizeSheen{
+  0%   { opacity:0;   transform:translateX(-40%); }
+  20%  { opacity:.85; transform:translateX(0); }
+  100% { opacity:0;   transform:translateX(60%); }
+}
+
+/* Gold */
+.prize-card--gold{
+  background:radial-gradient(140% 160% at 0% 0%, #fef9c3, #facc15);
+  color:#1f1300;
+}
+.prize-card--gold::before{
+  animation:prizeSheen 3.4s ease-in-out infinite;
+}
+
+/* Silver */
+.prize-card--silver{
+  background:radial-gradient(140% 160% at 0% 0%, #e5e7eb, #9ca3af);
+  color:#030712;
+}
+.prize-card--silver::before{
+  animation:prizeSheen 3.6s ease-in-out infinite 1.2s;
+}
+
+/* Tipos dentro de las tarjetas */
+.prize-rank{
+  font-size:.8rem;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  opacity:.8;
+}
+.prize-amount{
+  font-size:1.4rem;
+  font-weight:900;
+  line-height:1.1;
+}
+.prize-tag{
+  font-size:.85rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  opacity:.9;
+}
+
+/* CTA principal de WhatsApp: ancho cómodo y centrado en mobile */
+.sorteos-wa-main{
+  min-height:48px;
+  padding-inline:18px;
+  font-size:.95rem;
+  font-weight:800;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+/* Mobile: todo centrado y premios uno abajo del otro */
+@media (max-width: 900px){
+  .sorteo-hero{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+  .sorteo-hero__info{
+    justify-items:center;
+  }
+  .sorteo-prizes-grid{
+    grid-template-columns:1fr;
+  }
+  .prize-card{
+    justify-items:center;
+  }
+  .sorteo-steps{
+    text-align:left;
+  }
+  .sorteo-cta-row{
+    justify-content:center;
+  }
+  .sorteos-wa-main{
+    width:100%;
+    max-width:360px;
+  }
+}
+/* =========================================
+   INDEX — Línea blanca neón ENTRE las promos
+   ========================================= */
+
+/* Aseguramos que el bloque de promos no meta bordes raros */
+.section-block.reveal{
+  position: relative;
+  border-top: 0 !important;
+}
+
+/* Cada banner dentro del bloque */
+.section-block.reveal > .promo-banner{
+  position: relative !important;
+  display: block !important;
+  overflow: visible !important;  /* MUY IMPORTANTE: deja salir la línea */
+  margin: 0 !important;
+}
+
+/* El espacio ENTRE una promo y la siguiente */
+.section-block.reveal > .promo-banner + .promo-banner{
+  margin-top: 32px !important;   /* el gap donde vive la línea */
+}
+
+/* Línea blanca neón centrada en el gap */
+.section-block.reveal > .promo-banner + .promo-banner::before{
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: -16px;                    /* mitad del gap (32px / 2) */
+  height: 2px;
+  border-radius: 999px;
+
+  /* blanca con leve degradé para que no quede “bloque” sólido */
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0),
+    #ffffff,
+    rgba(255,255,255,0)
+  );
+
+  box-shadow:
+    0 0 8px rgba(255,255,255,.9),
+    0 0 22px rgba(34,197,94,.7);
+
+  opacity: .98;
+  pointer-events: none;
+  z-index: 5;
+  animation: promoNeonDivider 2.3s ease-in-out infinite;
+}
+
+@keyframes promoNeonDivider{
+  0%{
+    transform: scaleX(.96);
+    opacity: .75;
+  }
+  50%{
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100%{
+    transform: scaleX(.98);
+    opacity: .85;
+  }
+}
+
+/* Mobile: un poco más compacto, pero siempre ENTRE imágenes */
+@media (max-width: 600px){
+  .section-block.reveal > .promo-banner + .promo-banner{
+    margin-top: 22px !important;
+  }
+  .section-block.reveal > .promo-banner + .promo-banner::before{
+    top: -11px;      /* mitad de 22px */
+    left: 10%;
+    right: 10%;
+  }
+}
+/* ===== SORTEO: hacer más anchas las tarjetas de premios en mobile ===== */
+@media (max-width: 600px){
+  /* El grid se estira un poco más que el texto para comer el padding lateral */
+  body.sorteos-page .sorteo-prizes-grid{
+    grid-template-columns: 1fr;          /* ya venía, lo reforzamos */
+    width: calc(100% + 32px);            /* +32px de ancho total */
+    margin-inline: -16px;                /* lo sacamos 16px de cada lado */
+    gap: 10px;
+  }
+
+  /* Un poco más de cuerpo para que se vean bien contundentes */
+  body.sorteos-page .prize-card{
+    padding-block: 14px;
+    padding-inline: 22px;
+  }
+}
+/* =========================
+   CTA SORTEO — súper llamativo
+   ========================= */
+
+/* Estado base */
+.btn.whatsapp.sorteos-wa-main{
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  padding-inline: 22px;
+  min-height: 54px;
+
+  /* Tipografía */
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+
+  /* Colores y fondo */
+  background: linear-gradient(135deg,#22c55e,#16a34a,#bbf7d0);
+  color: #03140b;
+
+  /* Glow */
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.8),
+    0 10px 32px rgba(34,197,94,.6),
+    0 0 24px rgba(34,197,94,.7);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Brillo que pasa por arriba */
+.btn.whatsapp.sorteos-wa-main::after{
+  content:"";
+  position:absolute;
+  inset:-100%;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(255,255,255,.6) 45%,
+    transparent 70%);
+  transform: translateX(-40%);
+  opacity: 0;
+  pointer-events:none;
+}
+
+/* Hover / active (desktop) */
+.btn.whatsapp.sorteos-wa-main:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 38px rgba(34,197,94,.75),
+    0 0 30px rgba(34,197,94,.9);
+}
+.btn.whatsapp.sorteos-wa-main:active{
+  transform: translateY(0);
+  box-shadow:
+    0 6px 20px rgba(34,197,94,.6),
+    0 0 18px rgba(34,197,94,.8);
+}
+
+/* Animación de “pulso” suave + brillo que cruza */
+@keyframes ctaPulse {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%     { transform: translateY(-1px) scale(1.02); }
+}
+@keyframes ctaSheen {
+  0%   { opacity:0;   transform:translateX(-40%); }
+  25%  { opacity:.9;  transform:translateX(0); }
+  100% { opacity:0;   transform:translateX(60%); }
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .btn.whatsapp.sorteos-wa-main{
+    animation: ctaPulse 2.8s ease-in-out infinite;
+  }
+  .btn.whatsapp.sorteos-wa-main::after{
+    animation: ctaSheen 3.6s ease-in-out infinite 0.6s;
+  }
+}
+
+/* Mobile: ancho completo, bien protagonista */
+@media (max-width: 768px){
+  .btn.whatsapp.sorteos-wa-main{
+    width: 100%;
+    max-width: 460px;
+    margin-inline: auto;
+    font-size: .98rem;
+  }
+}
+
+/* ===== Sorteo: CTA fijo en mobile ===== */
+
+/* solo afectamos el botón dentro de .sorteos-page */
+.sorteos-page .sorteos-wa-main{
+  position: static;          /* desktop normal */
+}
+
+/* mobile: lo volvemos sticky abajo */
+@media (max-width: 768px){
+  .sorteos-page .sorteos-wa-row--top{
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    padding-top: 8px;
+    padding-bottom: 10px;
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,.65) 40%,
+      rgba(0,0,0,.9) 100%
+    );
+    backdrop-filter: blur(6px);
+  }
+
+  .sorteos-page .sorteos-wa-main{
+    width: 100%;
+    max-width: 420px;
+    margin-inline: auto;
+    box-shadow: 0 10px 32px rgba(15, 217, 118, .55);
+  }
+}
+/* ===== SORTEO: background exclusivo violeta + verde ===== */
+.sorteos-page .bg-frame{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    /* halo violeta arriba */
+    radial-gradient(80% 100% at 50% 0%,
+      rgba(124, 58, 237, .42),
+      transparent 60%),
+    /* glow verde lateral */
+    radial-gradient(70% 90% at 0% 60%,
+      rgba(34, 197, 94, .35),
+      transparent 70%),
+    radial-gradient(70% 90% at 100% 40%,
+      rgba(45, 212, 191, .32),
+      transparent 70%),
+    /* base negro más marcada */
+    linear-gradient(180deg, #020109 0%, #020307 45%, #02010a 100%);
+  box-shadow:
+    inset 0 -80px 160px rgba(0,0,0,.9),
+    inset 0 0 220px rgba(0,0,0,.85);
+}
+/* Ajuste de Oro/Plata al nuevo fondo */
+.sorteos-page .prize-card--gold{
+  background:
+    radial-gradient(160% 180% at 0% 0%, #fef9c3, #facc15);
+  color:#1f1300;
+}
+
+.sorteos-page .prize-card--silver{
+  background:
+    radial-gradient(160% 180% at 0% 0%, #e5e7eb, #9ca3af);
+  color:#020617;
+}
+
+.sorteos-page .prize-amount{
+  font-size:1.5rem;
+}
+/* =========================================
+   SORTEO – MOBILE FIRST (prioridad teléfono)
+   ========================================= */
+
+@media (max-width: 900px){
+
+  /* Fondo general más oscuro, violeta + verde */
+  .sorteos-page .bg-frame{
+    background:
+      radial-gradient(80% 100% at 50% 0%,
+        rgba(124, 58, 237, .42),
+        transparent 60%),
+      radial-gradient(70% 90% at 0% 60%,
+        rgba(34, 197, 94, .35),
+        transparent 70%),
+      radial-gradient(70% 90% at 100% 40%,
+        rgba(45, 212, 191, .32),
+        transparent 70%),
+      linear-gradient(180deg,#020109 0%,#020307 45%,#02010a 100%);
+    box-shadow:
+      inset 0 -80px 160px rgba(0,0,0,.9),
+      inset 0 0 220px rgba(0,0,0,.85);
+  }
+
+  /* Hero: solo 1 columna, sin foto */
+  .sorteo-hero{
+    display:block;
+    margin-top: 8px;
+  }
+  .sorteo-hero__img{
+    display:none;
+  }
+
+  /* Tarjeta principal del sorteo */
+  .sorteo-hero__info{
+    border-radius: 18px;
+    padding: 18px 16px 16px;
+    background:
+      radial-gradient(140% 160% at 0% 0%,
+        rgba(124, 58, 237, .35),
+        transparent 55%),
+      radial-gradient(120% 140% at 100% 0%,
+        rgba(34, 197, 94, .40),
+        transparent 60%),
+      linear-gradient(180deg,
+        rgba(5, 6, 12, .96),
+        rgba(3, 4, 10, .98));
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 18px 42px rgba(0,0,0,.9);
+  }
+
+  .sorteo-kicker{
+    font-size: .78rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #cbd5f5;
+    margin: 0 0 4px;
+  }
+
+  .sorteo-title{
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+  }
+
+  /* Premios: una columna, bien anchos */
+  .sorteo-prizes-grid{
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .prize-card{
+    padding: 10px 12px;
+  }
+
+  .prize-amount{
+    font-size: 1.6rem;
+  }
+
+  /* Countdown + cupos pegados al título */
+  .sorteo-counts{
+    margin-top: 6px;
+    gap: 8px;
+  }
+
+  /* Lista de pasos más compacta */
+  .sorteo-steps{
+    margin-top: 10px;
+    font-size: .95rem;
+  }
+
+  /* BOTÓN WHATSAPP: protagonista, full width */
+  .sorteo-cta-row{
+    margin-top: 12px;
+  }
+  .sorteos-wa-main{
+    width: 100%;
+    max-width: none;
+    justify-content: center;
+    min-height: 52px;
+    border-radius: 999px;
+    font-size: .98rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 900;
+    background: linear-gradient(135deg,#22c55e,#16a34a);
+    color:#02130a;
+    box-shadow: 0 10px 28px rgba(34,197,94,.55);
+    border: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* pequeño “brillo” que cruza el botón */
+  .sorteos-wa-main::after{
+    content:"";
+    position:absolute;
+    inset:-40%;
+    background:
+      linear-gradient(110deg,
+        transparent 0%,
+        rgba(255,255,255,.7) 46%,
+        transparent 60%);
+    opacity:.0;
+    transform: translateX(-60%);
+    pointer-events:none;
+    animation: waSheen 2.6s ease-in-out infinite;
+  }
+
+  @keyframes waSheen{
+    0%   { opacity:0;   transform:translateX(-60%); }
+    25%  { opacity:.8;  transform:translateX(0); }
+    100% { opacity:0;   transform:translateX(60%); }
+  }
+
+  /* Aviso legal más chico */
+  .sorteo-legal{
+    margin-top: 10px;
+    font-size: .8rem;
+    opacity: .85;
+  }
+
+  /* Feed de participantes pegado al hero */
+  .sorteo-feed{
+    margin-top: 14px;
+    border-radius: 16px;
+  }
+}
+/* ===== Fondo full-page exclusivo para sorteo ===== */
+.sorteos-page .bg-frame{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    /* glow violeta arriba a la izquierda */
+    radial-gradient(70% 90% at 15% 0%, rgba(124, 58, 237, .45), transparent 65%),
+    /* glow verde arriba a la derecha */
+    radial-gradient(70% 100% at 85% 10%, rgba(16, 185, 129, .55), transparent 65%),
+    /* base bien oscura hacia abajo */
+    radial-gradient(120% 150% at 50% 120%, rgba(15, 23, 42, .95), #020617 70%);
+  box-shadow:
+    inset 0 -80px 160px rgba(0,0,0,.85),
+    inset 0 0 240px rgba(0,0,0,.55);
+}
+
+/* ===== En sorteos NO queremos secciones tipo "tarjeta" ===== */
+/* pisa tu regla global de section { background:#0a0a0f; ... } solo en esta página */
+.sorteos-page section{
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding-inline: 0;   /* que el gradient llegue a los bordes del container */
+}
+
+/* El bloque principal del sorteo se apoya directo sobre el fondo */
+.sorteos-page .sorteo-hero{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Feed de participantes también transparente */
+.sorteos-page .sorteo-feed{
+  background: rgba(0,0,0,.55);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.75);
+}
+
+/* Ajuste del container para mobile (ancho cómodo pero sin “marcos” grandes) */
+.sorteos-page .container.page-narrow{
+  max-width: 540px;
+  padding-inline: clamp(14px, 4vw, 22px);
+}
